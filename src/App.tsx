@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -8,6 +8,21 @@ import WhatWeBuildPage from './pages/WhatWeBuildPage';
 import AboutPage from './pages/AboutPage';
 import GetInvolvedPage from './pages/GetInvolvedPage';
 import './index.css';
+
+// ScrollToTop component to reset window scroll position on route changes
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant', // Change to 'smooth' if you want a scrolling transition effect
+    });
+  }, [pathname]);
+
+  return null;
+};
 
 const BlogPage: React.FC = () => (
   <div className="section-container" style={{ padding: '5rem 2rem' }}>
@@ -19,6 +34,7 @@ const BlogPage: React.FC = () => (
 const App: React.FC = () => {
   return (
     <Router>
+      <ScrollToTop />
       <div className="app-container">
         <Navbar />
         <main>
