@@ -1,0 +1,21 @@
+@media (max-width: 768px) {
+  /* Show hamburger icon */
+  div[style*="hamburger"] {
+    display: flex !important;
+  }
+
+  /* Hide default nav menu on mobile unless opened */
+  ul[style*="navMenu"] {
+    display: none;
+  }
+
+  /* Hide desktop donate button and show mobile version inside drawer */
+  div[style*="desktopDonate"] {
+    display: none !important;
+  }
+
+  li[style*="mobileDonateItem"] {
+    display: block !important;
+    margin-top: 1rem;
+  }
+}
