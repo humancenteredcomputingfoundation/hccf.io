@@ -1,15 +1,37 @@
 import { WPPost } from '../types/wordpress';
 
-// Replace with your actual Headless WordPress API endpoint
-const WP_API_URL = 'https://your-wordpress-site.com/wp-json/wp/v2';
+const WP_API_URL = 'https://hccf.onmy.cloud/wp-json/wp/v2';
 
 export const fetchBlogPosts = async (): Promise<WPPost[]> => {
+  
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+
   try {
-    const response = await fetch(`${WP_API_URL}/posts?_embed`);
-    if (!response.ok) throw new Error('Failed to fetch posts');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching blog posts:', error);
+    const response = await fetch(`${WP_API_URL}/posts?_embed`, {
+      method: 'GET',
+      mode: 'cors',
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const posts: WPPost[] = await response.json();
+    return posts;
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.warn('WordPress request timed out. Showing fallback posts.');
+    } else {
+      console.error('Error fetching blog posts:', error);
+    }
+    // Returning an empty array triggers the fallback posts in BlogPage.tsx
     return [];
+  } finally {
+    clearTimeout(timeoutId);
   }
 };
