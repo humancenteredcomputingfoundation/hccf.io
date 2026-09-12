@@ -1,72 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 
 import heroImg1 from '../assets/hero1.jpg';
 import heroImg2 from '../assets/hero2.jpg';
 import heroImg3 from '../assets/hero3.jpg';
-import heroImg4 from '../assets/hero4.jpg'; // Imported hero4 asset
-
-const baseImages = [heroImg1, heroImg2, heroImg3];
+import heroImg4 from '../assets/hero4.jpg';
+import gtldSubmissionImg from '../assets/gTLD_Marked_spaced.png';
 
 const HomePage: React.FC = () => {
-  // Conveyor window: 5 active cards
-  const [belt, setBelt] = useState<string[]>([
-    baseImages[0],
-    baseImages[1],
-    baseImages[2],
-    baseImages[0],
-    baseImages[1],
-  ]);
-
-  // Animation direction state: 'next' | 'prev' | null
-  const [direction, setDirection] = useState<'next' | 'prev' | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
+  const navigate = useNavigate();
 
-  // Card width (260px) + Gap (24px) = 284px step size
-  const STEP_SIZE = 284;
-
-  const handleNext = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection('next');
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
   };
 
-  const handlePrev = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection('prev');
-  };
-
-  const handleTransitionEnd = () => {
-    if (!direction) return;
-
-    if (direction === 'next') {
-      setBelt((prevBelt) => {
-        const lastImage = prevBelt[prevBelt.length - 1];
-        const lastIndex = baseImages.indexOf(lastImage);
-        const nextImage = baseImages[(lastIndex + 1) % baseImages.length];
-        return [...prevBelt.slice(1), nextImage];
-      });
-    } else if (direction === 'prev') {
-      setBelt((prevBelt) => {
-        const firstImage = prevBelt[0];
-        const firstIndex = baseImages.indexOf(firstImage);
-        const prevImage = baseImages[(firstIndex - 1 + baseImages.length) % baseImages.length];
-        return [prevImage, ...prevBelt.slice(0, prevBelt.length - 1)];
-      });
-    }
-
-    // Reset slide offset instantly without animation after updating state
-    setDirection(null);
-    setIsAnimating(false);
-  };
-
-  // Determine current translation value based on slide direction
-  const getTransformOffset = () => {
-    if (direction === 'next') return `-${STEP_SIZE}px`;
-    if (direction === 'prev') return `${STEP_SIZE}px`;
-    return '0px';
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
   };
 
   const toggleAccordion = (index: number) => {
@@ -75,44 +27,101 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homepage">
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO CAROUSEL SECTION */}
       <section className="hero-section">
-        <div className="hero-content-wrapper">
-          <div className="hero-left">
-            <h1 className="hero-title">
-              Technology <br />
-              That Serves <br />
-              <span className="title-bold">Humanity</span>
-            </h1>
-            <p className="hero-subtext">
-              The Human-Centered Computing Foundation builds the infrastructure, standards, and ecosystem needed to make ethical technology the default, not the exception.
-            </p>
-          </div>
+        <button 
+          className="hero-carousel-arrow hero-left-arrow" 
+          onClick={handlePrevSlide} 
+          aria-label="Previous Slide"
+        >
+          &#10094;
+        </button>
+        <button 
+          className="hero-carousel-arrow hero-right-arrow" 
+          onClick={handleNextSlide} 
+          aria-label="Next Slide"
+        >
+          &#10095;
+        </button>
 
-          <div className="hero-right">
-            <button className="carousel-arrow left-arrow" onClick={handlePrev} aria-label="Previous">
-              &#10094;
-            </button>
-            <button className="carousel-arrow right-arrow" onClick={handleNext} aria-label="Next">
-              &#10095;
-            </button>
+        <div className="hero-carousel-viewport">
+          <div 
+            className="hero-carousel-track"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {/* HERO CARD 1: Core Mission */}
+            <div className="hero-slide">
+              <div className="hero-content-wrapper">
+                <div className="hero-left">
+                  <h1 className="hero-title">
+                    Technology <br />
+                    That Serves <br />
+                    <span className="title-bold">Humanity</span>
+                  </h1>
+                  <p className="hero-subtext">
+                    The Human-Centered Computing Foundation builds the infrastructure, standards, and ecosystem needed to make ethical technology the default, not the exception.
+                  </p>
+                </div>
 
-            <div className="carousel-viewport">
-              <div
-                className={`carousel-track ${isAnimating ? 'is-sliding' : ''}`}
-                onTransitionEnd={handleTransitionEnd}
-                style={{
-                  transform: `translateX(${getTransformOffset()})`
-                }}
-              >
-                {belt.map((imgSrc, idx) => (
-                  <div key={`${imgSrc}-${idx}`} className="carousel-card">
-                    <img src={imgSrc} alt={`Conveyor item ${idx + 1}`} />
+                <div className="hero-right">
+                  <div className="static-images-grid">
+                    <div className="static-card">
+                      <img src={heroImg1} alt="Human centered tech 1" />
+                    </div>
+                    <div className="static-card">
+                      <img src={heroImg2} alt="Human centered tech 2" />
+                    </div>
+                    <div className="static-card">
+                      <img src={heroImg3} alt="Human centered tech 3" />
+                    </div>
                   </div>
-                ))}
+                </div>
+              </div>
+            </div>
+
+            {/* HERO CARD 2: gTLD Submission Milestone */}
+            <div className="hero-slide">
+              <div className="hero-content-wrapper">
+                <div className="hero-left">
+                  <span className="hero-badge">MAJOR MILESTONE</span>
+                  <h1 className="hero-title">
+                    Our gTLD <br />
+                    Application Is <br />
+                    <span className="title-bold">Submitted</span>
+                  </h1>
+                  <p className="hero-subtext">
+                    We have officially submitted our application for a new human-centered Top-Level Domain. Follow our milestone progress and full evaluation journey.
+                  </p>
+                  <button 
+                    className="hero-cta-btn"
+                    onClick={() => navigate('/gtld-journey')}
+                  >
+                    View Submission Journey &rarr;
+                  </button>
+                </div>
+
+                <div className="hero-right hero-right-center">
+                  <div className="gtld-image-frame">
+                    <img src={gtldSubmissionImg} alt="gTLD Application Submitted Milestone" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="hero-carousel-dots">
+          <button 
+            className={`dot ${currentSlide === 0 ? 'active' : ''}`} 
+            onClick={() => setCurrentSlide(0)}
+            aria-label="Slide 1"
+          />
+          <button 
+            className={`dot ${currentSlide === 1 ? 'active' : ''}`} 
+            onClick={() => setCurrentSlide(1)}
+            aria-label="Slide 2"
+          />
         </div>
       </section>
 
@@ -133,11 +142,13 @@ const HomePage: React.FC = () => {
                 <span>Exploitative Business Models</span>
                 <span className="accordion-icon">{openAccordion === 0 ? '—' : '+'}</span>
               </button>
-              {openAccordion === 0 && (
-                <div className="accordion-body">
-                  When a product is free to use, the data users generate is the real product being sold to others. Whether it's to sell targeted advertisements or to train AI models, personal information is harvested like a crop and productized without meaningful consent or benefit to the user generating that value.
+              <div className={`accordion-body-wrapper ${openAccordion === 0 ? 'is-open' : ''}`}>
+                <div className="accordion-body-inner">
+                  <div className="accordion-body">
+                    When a product is free to use, the data users generate is the real product being sold to others. Whether it's to sell targeted advertisements or to train AI models, personal information is harvested like a crop and productized without meaningful consent or benefit to the user generating that value.
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             <div className={`accordion-item ${openAccordion === 1 ? 'is-open' : ''}`}>
@@ -145,11 +156,13 @@ const HomePage: React.FC = () => {
                 <span>Entrapping Subscription Lock-In</span>
                 <span className="accordion-icon">{openAccordion === 1 ? '—' : '+'}</span>
               </button>
-              {openAccordion === 1 && (
-                <div className="accordion-body">
-                  Proprietary walled-gardens prevent interoperability, trapping user data behind artificial barriers and forcing ongoing financial subscription fees without true data ownership.
+              <div className={`accordion-body-wrapper ${openAccordion === 1 ? 'is-open' : ''}`}>
+                <div className="accordion-body-inner">
+                  <div className="accordion-body">
+                    Proprietary walled-gardens prevent interoperability, trapping user data behind artificial barriers and forcing ongoing financial subscription fees without true data ownership.
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>

@@ -7,7 +7,8 @@ import MissionPage from './pages/MissionPage';
 import WhatWeBuildPage from './pages/WhatWeBuildPage';
 import AboutPage from './pages/AboutPage';
 import GetInvolvedPage from './pages/GetInvolvedPage';
-import { BlogPage } from './pages/BlogPage'; // Direct import of your real Blog component
+import GtldJourneyPage from './pages/GtldJourneyPage';
+import { BlogPage } from './pages/BlogPage';
 import './index.css';
 
 // ScrollToTop component to reset window scroll position on route changes
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/get-involved" element={<GetInvolvedPage />} />
+            <Route path="/gtld-journey" element={<GtldJourneyPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </main>

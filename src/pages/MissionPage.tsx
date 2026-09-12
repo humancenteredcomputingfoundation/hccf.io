@@ -87,11 +87,13 @@ const MissionPage: React.FC = () => {
                     </span>
                   </button>
 
-                  {openIndex === idx && (
-                    <div className="values-body">
-                      <p>{item.content}</p>
+                  <div className={`values-body-wrapper ${openIndex === idx ? 'is-open' : ''}`}>
+                    <div className="values-body-inner">
+                      <div className="values-body">
+                        <p>{item.content}</p>
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>
