@@ -5,7 +5,8 @@ import logoImg from '../assets/logo.png';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState<boolean>(false);
+  const [getInvolvedDropdownOpen, setGetInvolvedDropdownOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const location = useLocation();
@@ -22,6 +23,9 @@ const Navbar: React.FC = () => {
         break;
       case '/about':
         setActiveItem('ABOUT');
+        break;
+      case '/gtld-journey':
+        setActiveItem('GTLD');
         break;
       case '/blog':
         setActiveItem('BLOG');
@@ -51,22 +55,17 @@ const Navbar: React.FC = () => {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const toggleDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setDropdownOpen(!dropdownOpen);
-  };
-
   const handleNavClick = (itemName: string) => {
     setActiveItem(itemName);
     setIsOpen(false); // Close mobile drawer when an item is selected
+    setAboutDropdownOpen(false);
+    setGetInvolvedDropdownOpen(false);
   };
 
   const navItems = [
     { name: 'HOME', path: '/' },
     { name: 'MISSION', path: '/mission' },
     { name: 'WHAT WE BUILD', path: '/what-we-build' },
-    { name: 'ABOUT', path: '/about' },
-    { name: 'BLOG', path: '/blog' },
   ];
 
   return (
@@ -102,15 +101,70 @@ const Navbar: React.FC = () => {
           </li>
         ))}
 
+        {/* ABOUT Dropdown */}
+        <li
+          className={`nav-item dropdown ${
+            activeItem === 'ABOUT' || activeItem === 'GTLD' ? 'active' : ''
+          } ${aboutDropdownOpen ? 'dropdown-open' : ''}`}
+          onMouseEnter={() => setAboutDropdownOpen(true)}
+          onMouseLeave={() => setAboutDropdownOpen(false)}
+        >
+          <div
+            className="dropdown-trigger"
+            onClick={(e) => {
+              e.stopPropagation();
+              setAboutDropdownOpen(!aboutDropdownOpen);
+            }}
+          >
+            <Link
+              to="/about"
+              className="nav-link"
+              onClick={() => handleNavClick('ABOUT')}
+            >
+              ABOUT
+            </Link>
+            <span className="dropdown-icon">▾</span>
+          </div>
+
+          <ul className="dropdown-menu">
+            <li className="dropdown-item">
+              <Link
+                to="/gtld-journey"
+                className={`dropdown-link ${activeItem === 'GTLD' ? 'active-sublink' : ''}`}
+                onClick={() => handleNavClick('GTLD')}
+              >
+                OUR SUBMISSION JOURNEY
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* BLOG Link */}
+        <li className={`nav-item ${activeItem === 'BLOG' ? 'active' : ''}`}>
+          <Link
+            to="/blog"
+            className="nav-link"
+            onClick={() => handleNavClick('BLOG')}
+          >
+            BLOG
+          </Link>
+        </li>
+
         {/* GET INVOLVED Dropdown */}
         <li
           className={`nav-item dropdown ${
             activeItem === 'GET INVOLVED' || activeItem === 'COMMUNITY' ? 'active' : ''
-          } ${dropdownOpen ? 'dropdown-open' : ''}`}
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
+          } ${getInvolvedDropdownOpen ? 'dropdown-open' : ''}`}
+          onMouseEnter={() => setGetInvolvedDropdownOpen(true)}
+          onMouseLeave={() => setGetInvolvedDropdownOpen(false)}
         >
-          <div className="dropdown-trigger" onClick={toggleDropdown}>
+          <div
+            className="dropdown-trigger"
+            onClick={(e) => {
+              e.stopPropagation();
+              setGetInvolvedDropdownOpen(!getInvolvedDropdownOpen);
+            }}
+          >
             <Link
               to="/get-involved"
               className="nav-link"
@@ -128,10 +182,7 @@ const Navbar: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`dropdown-link ${activeItem === 'COMMUNITY' ? 'active-sublink' : ''}`}
-                onClick={() => {
-                  setActiveItem('COMMUNITY');
-                  setIsOpen(false);
-                }}
+                onClick={() => handleNavClick('COMMUNITY')}
               >
                 COMMUNITY
               </a>

@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import '../index.css';
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 const GetInvolvedPage: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -15,12 +23,44 @@ const GetInvolvedPage: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
-    alert('Thank you for signing up!');
-    setFormData({ firstName: '', lastName: '', email: '' });
+    setIsSubmitting(true);
+
+    const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2c46e504e3ae9c73634105124f6f9354";
+
+    try {
+      const response = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          _subject: "New .self Subdomain Newsletter Sign-up!",
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && (result.success === true || result.success === "true")) {
+        alert("Thank you for subscribing!");
+        setFormData({ firstName: "", lastName: "", email: "" });
+      } else {
+        console.error("FormSubmit response error:", result);
+        alert(result.message || "Submission failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("FormSubmit error:", error);
+      alert("An error occurred. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -161,8 +201,8 @@ const GetInvolvedPage: React.FC = () => {
                 required
                 className="gi-input gi-input-full"
               />
-              <button type="submit" className="gi-submit-btn">
-                Submit
+              <button type="submit" className="gi-submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>

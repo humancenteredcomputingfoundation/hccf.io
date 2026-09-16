@@ -49,6 +49,36 @@ const HomePage: React.FC = () => {
             className="hero-carousel-track"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
+
+{/* HERO CARD 2: gTLD Submission Milestone */}
+<div className="hero-slide">
+              <div className="hero-content-wrapper">
+                <div className="hero-left">
+                  <span className="hero-badge">MAJOR MILESTONE</span>
+                  <h1 className="hero-title">
+                    Our gTLD <br />
+                    Application is <br />
+                    <span className="title-bold">Submitted</span>
+                  </h1>
+                  <p className="hero-subtext">
+                    We have officially submitted our application for a new human-centered Top-Level Domain. Follow our milestone progress and full evaluation journey.
+                  </p>
+                  <button 
+                    className="hero-cta-btn"
+                    onClick={() => navigate('/gtld-journey')}
+                  >
+                    View Submission Journey &rarr;
+                  </button>
+                </div>
+
+                <div className="hero-right hero-right-center">
+                  <div className="gtld-image-frame">
+                    <img src={gtldSubmissionImg} alt="gTLD Application Submitted Milestone" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* HERO CARD 1: Core Mission */}
             <div className="hero-slide">
               <div className="hero-content-wrapper">
@@ -79,34 +109,6 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* HERO CARD 2: gTLD Submission Milestone */}
-            <div className="hero-slide">
-              <div className="hero-content-wrapper">
-                <div className="hero-left">
-                  <span className="hero-badge">MAJOR MILESTONE</span>
-                  <h1 className="hero-title">
-                    Our gTLD <br />
-                    Application Is <br />
-                    <span className="title-bold">Submitted</span>
-                  </h1>
-                  <p className="hero-subtext">
-                    We have officially submitted our application for a new human-centered Top-Level Domain. Follow our milestone progress and full evaluation journey.
-                  </p>
-                  <button 
-                    className="hero-cta-btn"
-                    onClick={() => navigate('/gtld-journey')}
-                  >
-                    View Submission Journey &rarr;
-                  </button>
-                </div>
-
-                <div className="hero-right hero-right-center">
-                  <div className="gtld-image-frame">
-                    <img src={gtldSubmissionImg} alt="gTLD Application Submitted Milestone" />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 

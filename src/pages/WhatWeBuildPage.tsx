@@ -1,6 +1,7 @@
 import React from 'react';
 import '../index.css';
 import letterImg from '../assets/letter.png';
+import { Link } from 'react-router-dom';
 
 const WhatWeBuildPage: React.FC = () => {
   return (
@@ -40,10 +41,10 @@ const WhatWeBuildPage: React.FC = () => {
             <div className="status-card">
               <h3 className="status-title">Current Status</h3>
               <p className="status-text">
-                We are one of a few organizations that are fully qualified for ICANN's Application Support Program (ASP) and are in process of submitting our application for the gTLD.
-              </p>
-
-              {/* ICANN Letter Image Container */}
+  We are one of the 56 approved organizations for ICANN's Applicant Support Program (ASP) in April 2026. Our application for .self in the gTLD 2026 round was submitted on 12 August 2026. We are now waiting for the review day expected for October 2026.{' '}
+  <Link to="/gtld-journey">Click here to learn more about our gTLD application journey.</Link>
+</p>
+<p className="status-text">See below our ASP approval letter.</p>
               <div className="letter-container">
                 <img
                   src={letterImg}
