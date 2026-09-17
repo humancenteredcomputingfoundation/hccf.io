@@ -49,9 +49,8 @@ const HomePage: React.FC = () => {
             className="hero-carousel-track"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-
-{/* HERO CARD 2: gTLD Submission Milestone */}
-<div className="hero-slide">
+            {/* HERO CARD 2: gTLD Submission Milestone */}
+            <div className="hero-slide">
               <div className="hero-content-wrapper">
                 <div className="hero-left">
                   <span className="hero-badge">MAJOR MILESTONE</span>
@@ -108,22 +107,20 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
             </div>
-
           </div>
-        </div>
 
-        {/* Carousel Indicators */}
-        <div className="hero-carousel-dots">
-          <button 
-            className={`dot ${currentSlide === 0 ? 'active' : ''}`} 
-            onClick={() => setCurrentSlide(0)}
-            aria-label="Slide 1"
-          />
-          <button 
-            className={`dot ${currentSlide === 1 ? 'active' : ''}`} 
-            onClick={() => setCurrentSlide(1)}
-            aria-label="Slide 2"
-          />
+          <div className="hero-carousel-dots">
+            <button 
+              className={`dot ${currentSlide === 0 ? 'active' : ''}`} 
+              onClick={() => setCurrentSlide(0)}
+              aria-label="Slide 1"
+            />
+            <button 
+              className={`dot ${currentSlide === 1 ? 'active' : ''}`} 
+              onClick={() => setCurrentSlide(1)}
+              aria-label="Slide 2"
+            />
+          </div>
         </div>
       </section>
 
@@ -161,7 +158,7 @@ const HomePage: React.FC = () => {
               <div className={`accordion-body-wrapper ${openAccordion === 1 ? 'is-open' : ''}`}>
                 <div className="accordion-body-inner">
                   <div className="accordion-body">
-                    Proprietary walled-gardens prevent interoperability, trapping user data behind artificial barriers and forcing ongoing financial subscription fees without true data ownership.
+                    Subscription-based software platforms are designed for retention through complexity and data captivity, which makes switching costs deliberately high. Convenience comes at the cost of freedom.
                   </div>
                 </div>
               </div>
@@ -196,6 +193,21 @@ const HomePage: React.FC = () => {
             <p className="card-text">
               As an approved participant in ICANN's Applicant Support Program (ASP), we are applying for a new generic Top-Level Domain (gTLD) designed around human-centered principles. This namespace will serve as a secure home for human-centered technologies, governed by built-in anti-abuse protections and equitable access rules.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CALL TO ACTION SECTION */}
+      <section className="page-cta-section">
+        <div className="section-container">
+          <div className="cta-card">
+            <h2 className="cta-title">Want to build an ethical digital web together?</h2>
+            <p className="cta-description">
+              Whether you are an engineer, researcher, privacy advocate, or curious user, we invite you to connect with us and help redefine technology for human empowerment.
+            </p>
+            <button className="cta-btn" onClick={() => navigate('/get-involved')}>
+              Get in Touch &rarr;
+            </button>
           </div>
         </div>
       </section>

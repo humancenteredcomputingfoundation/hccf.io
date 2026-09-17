@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 import nonprofitImg from '../assets/notprofit.jpg';
 import rileyImg from '../assets/riley.jpg';
@@ -7,6 +8,7 @@ import letter501Img from '../assets/501letter.png';
 
 const AboutPage: React.FC = () => {
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
+  const navigate = useNavigate();
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion(openAccordion === index ? null : index);
@@ -60,7 +62,7 @@ const AboutPage: React.FC = () => {
                   <div className="about-accordion-body-inner">
                     <div className="about-accordion-body">
                       <p>
-                        The Human-Centered Computing Foundation was created to address a critical deficit in the modern technology landscape. The prevailing economic models of the digital age — surveillance capitalism and entrapping SaaS platforms — prioritize corporate shareholder value over the fundamental needs, privacy, and autonomy of the individual.
+                        The Human-Centered Computing Foundation was created to address a critical deficit in the modern technology landscape. The prevailing economic models of the digital age surveillance capitalism and entrapping SaaS platforms prioritize corporate shareholder value over the fundamental needs, privacy, and autonomy of the individual.
                       </p>
                       <p style={{ marginTop: '1rem' }}>
                         These models capture the value that users create and provide, and rather than redirecting it back to the user, they extract it solely for corporate benefit. HCCF exists to recalibrate this balance.
@@ -174,6 +176,21 @@ const AboutPage: React.FC = () => {
               alt="IRS 501(c)(3) Determination Letter"
               className="irs-letter-image"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CALL TO ACTION SECTION */}
+      <section className="page-cta-section">
+        <div className="section-container">
+          <div className="cta-card">
+            <h2 className="cta-title">Join Our Organization's Vision</h2>
+            <p className="cta-description">
+              We operate transparently and welcome passionate collaborators, organizational partners, and community members who believe tech should serve humanity first.
+            </p>
+            <button className="cta-btn" onClick={() => navigate('/get-involved')}>
+              Get Involved &rarr;
+            </button>
           </div>
         </div>
       </section>

@@ -827,16 +827,16 @@ main {
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
-  align-items: stretch;
+  align-items: flex-start;
 }
 
 .initiative-left {
   flex: 0 0 35%;
   background-color: var(--primary-color);
-  padding: 4rem 3rem;
+  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   color: var(--white);
   border-radius: 6px 0 0 6px;
 }
@@ -2236,5 +2236,87 @@ a.gi-detail-value:hover {
   .post-nav-btn.next {
     text-align: left;
     align-items: flex-start;
+  }
+}
+
+/* ================= 14. PAGE CTA SECTION STYLES ================= */
+.page-cta-section {
+  padding: 5rem 0;
+  background-color: var(--bg-light);
+  border-top: 1px solid var(--border-light);
+}
+
+.cta-card {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 3.5rem 3rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 122, 140, 0.15);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-family: 'Zekton', sans-serif;
+  font-size: 2.2rem;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.cta-description {
+  font-family: 'Futura', sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--white);
+  opacity: 0.95;
+  font-weight: 300;
+  max-width: 650px;
+  margin: 0 auto 2rem auto;
+}
+
+.cta-btn {
+  display: inline-block;
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: none;
+  padding: 0.85rem 1.8rem;
+  font-family: 'Futura', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta-btn:hover {
+  background-color: var(--primary-light);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.cta-btn-link {
+  line-height: normal;
+}
+
+/* Mobile Responsiveness for CTA */
+@media (max-width: 900px) {
+  .page-cta-section {
+    padding: 3.5rem 0;
+  }
+
+  .cta-card {
+    padding: 2.25rem 1.5rem;
+  }
+
+  .cta-title {
+    font-size: 1.8rem;
+  }
+
+  .cta-description {
+    font-size: 0.9rem;
   }
 }

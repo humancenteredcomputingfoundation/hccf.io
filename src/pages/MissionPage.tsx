@@ -100,6 +100,26 @@ const MissionPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* 4. CALL TO ACTION SECTION */}
+      <section className="page-cta-section">
+        <div className="section-container">
+          <div className="cta-card">
+            <h2 className="cta-title">Support Our Non-Profit Mission</h2>
+            <p className="cta-description">
+              As a small 501(c)(3) nonprofit, 100% of your contributions directly fund our technical infrastructure, public advocacy, and mission-driven initiatives without commercial compromise.
+            </p>
+            <a
+              href="https://www.zeffy.com/en-US/donation-form/donate-to-change-lives-13253"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-btn cta-btn-link"
+            >
+              Donate Now &rarr;
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
