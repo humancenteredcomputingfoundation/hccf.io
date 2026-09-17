@@ -17,7 +17,7 @@ const WhatWeBuildPage: React.FC = () => {
             ecosystem for ethical technology
           </h1>
           <p className="build-hero-text">
-            Each of our four initiatives reinforces the others — creating infrastructure, defining standards, recognizing compliance, and directing resources toward the social sector.
+            Each of our four initiatives reinforces the others; creating infrastructure, defining standards, recognizing compliance, and directing resources toward the social sector.
           </p>
         </div>
       </section>

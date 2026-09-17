@@ -185,9 +185,6 @@ const HomePage: React.FC = () => {
         >
           <div className="response-card-overlay">
             <div className="card-badge-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#007a8c">
-                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-              </svg>
             </div>
             <span className="card-category">INFRASTRUCTURE</span>
             <p className="card-text">

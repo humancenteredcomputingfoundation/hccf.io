@@ -68,7 +68,7 @@ const AboutPage: React.FC = () => {
                         These models capture the value that users create and provide, and rather than redirecting it back to the user, they extract it solely for corporate benefit. HCCF exists to recalibrate this balance.
                       </p>
                       <p style={{ marginTop: '1rem' }}>
-                        Our founders bring an international perspective — combining the experience of building technology in the United States with insights from Brazil and beyond — reflecting our conviction that a truly human-centered ecosystem must represent the full diversity of humanity.
+                        Our founders bring an international perspective, combining the experience of building technology in the United States with insights from Brazil and beyond, reflecting our conviction that a truly human-centered ecosystem must represent the full diversity of humanity.
                       </p>
                     </div>
                   </div>
