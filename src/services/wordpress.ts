@@ -1,6 +1,6 @@
 import { WPPost } from '../types/wordpress';
 
-const WP_API_URL = 'https://hccf.onmy.cloud/wp-json/wp/v2';
+const WP_API_URL = 'https://wordpress.hccf.onmy.cloud/wp-json/wp/v2';
 
 export const fetchBlogPosts = async (): Promise<WPPost[]> => {
   
