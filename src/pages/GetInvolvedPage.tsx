@@ -27,7 +27,7 @@ const GetInvolvedPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2c46e504e3ae9c73634105124f6f9354";
+    const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/edwin@hccf.onmy.cloud";
 
     try {
       const response = await fetch(FORMSUBMIT_ENDPOINT, {
