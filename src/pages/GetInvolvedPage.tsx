@@ -27,37 +27,33 @@ const GetInvolvedPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/edwin@hccf.onmy.cloud";
+    const WORDPRESS_ENDPOINT = "https://wordpress.hccf.onmy.cloud/wp-json/hccf/v1/subscribe";
 
     try {
-      const response = await fetch(FORMSUBMIT_ENDPOINT, {
+      const response = await fetch(WORDPRESS_ENDPOINT, {
         method: "POST",
         headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
-          _subject: "New .self Subdomain Newsletter Sign-up!",
-          _template: "table",
-          _captcha: "false"
         })
       });
 
       const result = await response.json();
 
-      if (response.ok && (result.success === true || result.success === "true")) {
-        alert("Thank you for subscribing!");
+      if (response.ok && result.success) {
+        alert(result.message || "Thank you for subscribing!");
         setFormData({ firstName: "", lastName: "", email: "" });
       } else {
-        console.error("FormSubmit response error:", result);
+        console.error("WordPress API response error:", result);
         alert(result.message || "Submission failed. Please try again.");
       }
     } catch (error) {
-      console.error("FormSubmit error:", error);
-      alert("An error occurred. Please try again later.");
+      console.error("WordPress API error:", error);
+      alert("Network error: Unable to process submission at this time.");
     } finally {
       setIsSubmitting(false);
     }

@@ -11,6 +11,11 @@ import gtldSubmissionImg from '../assets/gTLD_Marked_spaced.png';
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [openAccordion, setOpenAccordion] = useState<number | null>(0);
+  
+  // Touch swipe states
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
   const navigate = useNavigate();
 
   const handleNextSlide = () => {
@@ -23,6 +28,32 @@ const HomePage: React.FC = () => {
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion(openAccordion === index ? null : index);
+  };
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEndX(null); // Reset previous touch end position
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 50; // Minimum distance in pixels to trigger a swipe
+
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      handleNextSlide();
+    } else if (isRightSwipe) {
+      handlePrevSlide();
+    }
   };
 
   return (
@@ -44,7 +75,12 @@ const HomePage: React.FC = () => {
           &#10095;
         </button>
 
-        <div className="hero-carousel-viewport">
+        <div 
+          className="hero-carousel-viewport"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div 
             className="hero-carousel-track"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}

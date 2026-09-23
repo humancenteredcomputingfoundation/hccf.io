@@ -15,22 +15,22 @@ const valuesData: ValueItem[] = [
   {
     title: 'Personal Data is Sacred',
     content:
-      'Personal data belongs entirely to the individual. We design and advocate for systems that preserve user privacy by default, preventing unauthorized monetization, surveillance, and data exploitation.',
+      'An individual’s digital data is sacred. From personal memories to private communications, a person’s data is a reflection of their identity and autonomy. We treat this data with respect and understand the profound personal meaning it has to them. We champion the principle of data sovereignty, where individuals have unequivocal ownership and control over their digital selves, and we build systems that embody this principle.',
   },
   {
     title: 'Technical Excellence',
     content:
-      'Building human-centered alternatives requires uncompromised technical rigor, robust security, scalable infrastructure, and forward-thinking architecture.',
+      'Trust is earned through excellence, reliability, and accountability. We commit to the highest standards of engineering rigor in every system we design and every standard we publish. Our solutions must be ethically sound, robust, secure, and maintainable. This technical integrity is non-negotiable and forms the bedrock of the trust our community places in us.',
   },
   {
     title: 'Conscious Trade-offs',
     content:
-      'We carefully evaluate every design and business decision, choosing transparency and long-term user empowerment over short-term expediency or superficial convenience.',
+      'We recognize that every engineering and policy choice involves a trade-off. We embrace this by making deliberate, conscious decisions that optimize for human benefit, even when those choices limit commercial scalability or violate some conventional wisdom of the tech industry. We are not building for every possible use case; we are building for our specific, human-centered mission.',
   },
   {
     title: 'Courtesy is Guaranteed',
     content:
-      'We foster respectful, transparent, and inclusive interactions across our community, partnerships, and software ecosystems.',
+      'We engage with all people: colleagues, partners, and critics alike, with a fundamental and unwavering level of respect and courtesy. We believe that profound disagreement can coexist with civil discourse, and that varied perspectives are essential for solving complex challenges. We will guarantee a respectful environment for all constructive collaboration.',
   },
 ];
 
@@ -83,7 +83,7 @@ const MissionPage: React.FC = () => {
                   >
                     <span className="values-header-text">{item.title}</span>
                     <span className="values-icon">
-                      {openIndex === idx ? '—' : '+'}
+                      {openIndex === idx ? '-' : '+'}
                     </span>
                   </button>
 

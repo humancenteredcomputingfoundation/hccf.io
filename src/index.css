@@ -257,6 +257,7 @@ main {
 .hero-carousel-viewport {
   width: 100%;
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 .hero-carousel-track {
@@ -519,10 +520,14 @@ main {
   color: var(--primary-color);
   cursor: pointer;
   text-align: left;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .accordion-body {
   padding-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   font-family: 'Futura', sans-serif;
   font-size: 0.92rem;
   line-height: 1.65;
@@ -2098,6 +2103,37 @@ a.gi-detail-value:hover {
     display: flex;
   }
 
+  /* Dropdown styles for mobile menu drawer */
+  .nav-menu .dropdown-menu {
+    display: none;
+    position: static;
+    width: 100%;
+    background-color: var(--bg-light);
+    box-shadow: none;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+  }
+
+  .nav-menu .dropdown:hover .dropdown-menu,
+  .nav-menu .dropdown-open .dropdown-menu {
+    display: block;
+  }
+
+  .nav-menu .dropdown-menu::before {
+    display: none;
+  }
+
+  .nav-item {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dropdown-trigger {
+    justify-content: center;
+  }
+
   .desktop-donate {
     display: none;
   }
@@ -2320,3 +2356,14 @@ a.gi-detail-value:hover {
     font-size: 0.9rem;
   }
 }
+
+.status-link {
+  color: #007a8c;;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.status-link:hover {
+  color: #80cbd3;
+}
+
