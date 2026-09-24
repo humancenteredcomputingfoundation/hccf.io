@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
 
         <div className="social-links">
           {/* Facebook */}
-          <a href="https://www.facebook.com/profile.php?id=61583647284804&sk=followers" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-icon">
+          <a href="https://www.facebook.com/profile.php?id=61583647284804" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-icon">
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
               <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H7.5v-3H10V9.5C10 7.01 11.49 5.6 13.77 5.6c1.09 0 2.23.2 2.23.2v2.45h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3h-2.33v6.8c4.56-.93 8-4.96 8-9.8z"/>
             </svg>

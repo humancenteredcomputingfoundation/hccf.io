@@ -1,28 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchBlogPosts } from '../services/wordpress';
 import { WPPost } from '../types/wordpress';
-
-// Skeleton Component for the Feed Grid
-const BlogGridSkeleton: React.FC = () => {
-  return (
-    <div className="skeleton-grid">
-      {[1, 2, 3, 4, 5, 6].map((key) => (
-        <div key={key} className="skeleton-card">
-          <div>
-            <div className="skeleton-box skeleton-meta" />
-            <div className="skeleton-box skeleton-title" />
-            <div className="skeleton-box skeleton-title-short" />
-            <div className="skeleton-box skeleton-line" />
-            <div className="skeleton-box skeleton-line" />
-            <div className="skeleton-box skeleton-line-short" />
-          </div>
-          <div className="skeleton-box skeleton-button" />
-        </div>
-      ))}
-    </div>
-  );
-};
+import NotFound from './NotFound';
 
 const FALLBACK_POSTS = [
   {
@@ -78,30 +58,37 @@ const calculateReadingTime = (text: string): number => {
   return Math.max(1, Math.ceil(words / 200));
 };
 
-export const BlogPage: React.FC = () => {
-  const [posts, setPosts] = useState<WPPost[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+export const BlogPostPage: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let isMounted = true;
-    const loadPosts = async () => {
+    const loadData = async () => {
+      setLoading(true);
+
       try {
         const cmsPosts = await fetchBlogPosts();
-        if (isMounted && cmsPosts && cmsPosts.length > 0) {
-          setPosts(cmsPosts);
+        if (isMounted) {
+          const loadedPosts = cmsPosts && cmsPosts.length > 0 ? cmsPosts : FALLBACK_POSTS;
+          setPosts(loadedPosts);
         }
       } catch (error) {
-        console.error("Failed to fetch blog posts:", error);
+        if (isMounted) setPosts(FALLBACK_POSTS);
       } finally {
         if (isMounted) setLoading(false);
       }
     };
-    loadPosts();
-    return () => { isMounted = false; };
-  }, []);
 
-  const displayPosts = (posts.length > 0 ? posts : FALLBACK_POSTS).map((post: any) => {
+    loadData();
+    return () => { isMounted = false; };
+  }, [slug]);
+
+  // Format posts to standard internal shape
+  const formattedPosts = posts.map((post: any) => {
     const rawContent = typeof post.content === 'object' ? post.content?.rendered : (post.content || post.excerpt);
     const rawExcerpt = typeof post.excerpt === 'object' ? post.excerpt?.rendered : post.excerpt;
     const computedSlug = post.slug || (typeof post.title === 'string' ? post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '');
@@ -120,42 +107,98 @@ export const BlogPage: React.FC = () => {
     };
   });
 
+  const currentIndex = formattedPosts.findIndex(
+    (p) => p.slug.toLowerCase() === slug?.toLowerCase()
+  );
+
+  const currentPost = currentIndex !== -1 ? formattedPosts[currentIndex] : null;
+  const prevPost = currentIndex > 0 ? formattedPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex !== -1 && currentIndex < formattedPosts.length - 1 ? formattedPosts[currentIndex + 1] : null;
+
+  // Render Single Article Skeleton Screen
+  if (loading) {
+    return (
+      <div className="blog-page">
+        <section className="blog-hero-section">
+          <div className="section-container">
+            <span className="blog-tag">Blog & News</span>
+            <div className="skeleton-box skeleton-title" style={{ width: '70%', height: '48px', marginTop: '0.5rem' }} />
+          </div>
+        </section>
+
+        <section className="blog-feed-section">
+          <div className="section-container">
+            <div className="single-post-container">
+              <div className="skeleton-box skeleton-button" style={{ width: '140px', height: '36px', marginBottom: '2.5rem' }} />
+              <div className="skeleton-box skeleton-line" style={{ height: '20px', marginBottom: '1rem' }} />
+              <div className="skeleton-box skeleton-line" style={{ height: '20px', marginBottom: '1rem' }} />
+              <div className="skeleton-box skeleton-line-short" style={{ height: '20px', marginBottom: '2.5rem' }} />
+              <div className="skeleton-box skeleton-line" style={{ height: '20px', marginBottom: '1rem' }} />
+              <div className="skeleton-box skeleton-line" style={{ height: '20px', marginBottom: '1rem' }} />
+              <div className="skeleton-box skeleton-line-short" style={{ height: '20px', marginBottom: '1rem' }} />
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  // Render 404 page if no article matches the URL slug
+  if (!currentPost) {
+    return <NotFound />;
+  }
+
   return (
     <div className="blog-page">
       <section className="blog-hero-section">
         <div className="section-container">
           <span className="blog-tag">Blog & News</span>
-          <h1 className="blog-hero-title">Towards a More Human-Centered Future</h1>
+          <h1 className="blog-hero-title">{currentPost.title}</h1>
+          <span className="blog-meta">
+            By {currentPost.author} • {currentPost.date} • {currentPost.readTime} min read
+          </span>
         </div>
       </section>
 
       <section className="blog-feed-section">
         <div className="section-container">
-          {loading ? (
-            <BlogGridSkeleton />
-          ) : (
-            <div className="blog-grid">
-              {displayPosts.map((post) => (
-                <article 
-                  key={post.id} 
-                  onClick={() => navigate(`/${post.slug}`)}
-                  className="blog-card"
+          <div className="single-post-container">
+            <button onClick={() => navigate('/blog')} className="blog-back-btn">
+              &larr; Back to Articles
+            </button>
+
+            <article
+              className="single-post-content"
+              dangerouslySetInnerHTML={{ __html: currentPost.content }}
+            />
+
+            {/* Previous & Next Post Navigation */}
+            <div className="post-nav-container">
+              {prevPost ? (
+                <button
+                  onClick={() => navigate(`/${prevPost.slug}`)}
+                  className="post-nav-btn prev"
                 >
-                  <div>
-                    <span className="blog-meta">{post.author} • {post.date} • {post.readTime} min read</span>
-                    <h2 className="blog-card-title">{post.title}</h2>
-                    <div 
-                      className="blog-excerpt"
-                      dangerouslySetInnerHTML={{ __html: post.excerpt }} 
-                    />
-                  </div>
-                  <span className="blog-read-more">Read Full Article &rarr;</span>
-                </article>
-              ))}
+                  <span className="post-nav-label">&larr; Previous Article</span>
+                  <span className="post-nav-title">{prevPost.title}</span>
+                </button>
+              ) : <div />}
+
+              {nextPost ? (
+                <button
+                  onClick={() => navigate(`/${nextPost.slug}`)}
+                  className="post-nav-btn next"
+                >
+                  <span className="post-nav-label">Next Article &rarr;</span>
+                  <span className="post-nav-title">{nextPost.title}</span>
+                </button>
+              ) : <div />}
             </div>
-          )}
+          </div>
         </div>
       </section>
     </div>
   );
 };
+
+export default BlogPostPage;

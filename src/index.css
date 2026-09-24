@@ -2367,3 +2367,204 @@ a.gi-detail-value:hover {
   color: #80cbd3;
 }
 
+/* ================= 15. NOT FOUND PAGE STYLES ================= */
+.not-found-page {
+  background-color: var(--white);
+  color: var(--text-dark);
+  min-height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-hero-section {
+  width: 100%;
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.not-found-tag {
+  font-family: 'Futura', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.not-found-code {
+  font-family: 'Zekton', sans-serif;
+  font-size: 7.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.not-found-title {
+  font-family: 'Zekton', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.not-found-text {
+  font-family: 'Futura', sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  font-weight: 300;
+  max-width: 580px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.not-found-primary-btn {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 0.85rem 1.8rem;
+  font-family: 'Futura', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.not-found-primary-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.not-found-secondary-btn {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.8rem 1.8rem;
+  font-family: 'Futura', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.not-found-secondary-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .not-found-code {
+    font-size: 5.5rem;
+  }
+
+  .not-found-title {
+    font-size: 1.8rem;
+  }
+
+  .not-found-text {
+    font-size: 0.92rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .not-found-primary-btn,
+  .not-found-secondary-btn {
+    width: 100%;
+  }
+}
+
+/* ================= 16. SKELETON LOADER ANIMATION ================= */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.skeleton-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+}
+
+.skeleton-box {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 122, 140, 0.06) 25%,
+    rgba(0, 122, 140, 0.15) 37%,
+    rgba(0, 122, 140, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-pulse 1.4s ease infinite;
+  border-radius: 4px;
+}
+
+.skeleton-meta {
+  height: 14px;
+  width: 60%;
+  margin-bottom: 1.25rem;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 90%;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-title-short {
+  height: 24px;
+  width: 60%;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-line {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 0.6rem;
+}
+
+.skeleton-line-short {
+  height: 14px;
+  width: 75%;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-button {
+  height: 16px;
+  width: 35%;
+  margin-top: auto;
+}
+
+/* Pulse shimmer animation */
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

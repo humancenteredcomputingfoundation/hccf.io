@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -8,10 +8,11 @@ import WhatWeBuildPage from './pages/WhatWeBuildPage';
 import AboutPage from './pages/AboutPage';
 import GetInvolvedPage from './pages/GetInvolvedPage';
 import GtldJourneyPage from './pages/GtldJourneyPage';
+import NotFound from './pages/NotFound';
 import { BlogPage } from './pages/BlogPage';
+import { BlogPostPage } from './pages/BlogPostPage';
 import './index.css';
 
-// ScrollToTop component to reset window scroll position on route changes
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
 
@@ -41,7 +42,15 @@ const App: React.FC = () => {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/get-involved" element={<GetInvolvedPage />} />
             <Route path="/gtld-journey" element={<GtldJourneyPage />} />
-            <Route path="*" element={<HomePage />} />
+            
+            {/* Matches mysite.com/blog/blog-title */}
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+
+            {/* Matches mysite.com/blog-title directly */}
+            <Route path="/:slug" element={<BlogPostPage />} />
+
+            {/* Catch-all route for unknown paths */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

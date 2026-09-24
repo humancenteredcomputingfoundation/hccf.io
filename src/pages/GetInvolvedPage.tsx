@@ -133,7 +133,7 @@ const GetInvolvedPage: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/profile.php?id=61583647284804&sk=followers" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/profile.php?id=61583647284804" target="_blank" rel="noopener noreferrer">
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H7.5v-3H10V9.5C10 7.01 11.49 5.5 13.8 5.5c1.1 0 2.25.2 2.25.2v2.47h-1.27c-1.23 0-1.61.77-1.61 1.56V12h2.77l-.44 3h-2.33v6.8c4.56-.93 8-4.96 8-9.8z" />
                   </svg>

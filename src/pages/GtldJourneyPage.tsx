@@ -33,7 +33,7 @@ const GtldJourneyPage: React.FC = () => {
                 <span className="status-badge">MILESTONE REACHED</span>
                 <span className="status-date">12-Aug-2026</span>
               </div>
-              <h2 className="gtld-card-title">ASP Application Formally Submitted</h2>
+              <h2 className="gtld-card-title">gTLD Application Formally Submitted</h2>
               <p className="gtld-card-text">
                 HCCF has submitted its application through ICANN's Applicant Support Program (ASP) for the <strong>.self</strong> generic Top-Level Domain (gTLD). This marks a crucial step forward in establishing dedicated, privacy-focused internet infrastructure operating for user benefit rather than corporate extraction.
               </p>
