@@ -16,6 +16,26 @@
   --text-muted: #555555;
   --bg-light: #f8fafb;
   --border-light: rgba(0, 122, 140, 0.15);
+  --card-bg: #ffffff;
+  --navbar-bg: #ffffff;
+  --dropdown-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --primary-color: #007a8c;
+  --primary-dark: #005a67;
+  --primary-light: #80cbd3;
+  --white: #1a1a1a;
+  --text-dark: #f0f0f0;
+  --text-muted: #b0b0b0;
+  --bg-light: #121212;
+  --border-light: rgba(128, 203, 211, 0.2);
+  --card-bg: #242424;
+  --navbar-bg: #1e1e1e;
+  --dropdown-bg: #282828;
+  --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 h1 {
@@ -33,10 +53,11 @@ h1 {
 
 body {
   font-family: 'Futura', 'Futura-Medium', 'Futura PT', 'Trebuchet MS', Arial, sans-serif;
-  background-color: var(--white);
+  background-color: var(--bg-light);
   color: var(--text-dark);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-container {
@@ -68,15 +89,21 @@ main {
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 2.5rem;
-  background-color: var(--white);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background-color: var(--navbar-bg);
+  box-shadow: 0 2px 10px var(--shadow-color);
   z-index: 1000;
   transition: padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar.scrolled {
   padding: 0.6rem 2.5rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px var(--shadow-color);
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .logo-container {
@@ -171,8 +198,9 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--white);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  background-color: var(--dropdown-bg);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  border: 1px solid var(--border-light);
   border-radius: 4px;
   z-index: -1;
 }
@@ -200,10 +228,85 @@ main {
   color: var(--primary-color);
 }
 
+/* ================= THEME CONTROLLER STYLES ================= */
+.theme-controller {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--primary-color);
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--bg-light);
+  border-color: var(--primary-color);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  gap: 0.2rem;
+  min-width: 120px;
+  z-index: 1001;
+}
+
+.theme-option {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-option:hover {
+  background-color: var(--bg-light);
+  color: var(--primary-color);
+}
+
+.theme-option.active {
+  background-color: var(--bg-light);
+  color: var(--primary-color);
+}
+
+.theme-icon-svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
 .donate-btn {
   font-family: inherit;
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   border: none;
   padding: 0.7rem 1.6rem;
   font-size: 0.9rem;
@@ -233,6 +336,7 @@ main {
   gap: 5px;
   background: none;
   border: none;
+  padding: 0.3rem;
 }
 
 .bar {
@@ -245,7 +349,7 @@ main {
 /* ================= 3. HERO CAROUSEL ================= */
 .hero-section {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   padding: 4rem 0 3.5rem 0;
   position: relative;
   overflow: hidden;
@@ -303,7 +407,7 @@ main {
 }
 
 .hero-title {
-  color: var(--white);
+  color: #ffffff;
   font-size: 3.5rem;
   line-height: 1.15;
   font-weight: 400;
@@ -312,11 +416,11 @@ main {
 
 .hero-title .title-bold {
   font-weight: 900;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .hero-subtext {
-  color: var(--white);
+  color: #ffffff;
   font-size: 1rem;
   line-height: 1.6;
   opacity: 0.95;
@@ -337,7 +441,7 @@ main {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-  border: 2px solid var(--white);
+  border: 2px solid #ffffff;
 }
 
 .static-card img {
@@ -349,7 +453,7 @@ main {
 /* Card 2: gTLD Milestone Layout */
 .hero-badge {
   display: inline-block;
-  background-color: var(--white);
+  background-color: #ffffff;
   color: var(--primary-color);
   font-family: 'Futura', sans-serif;
   font-size: 0.75rem;
@@ -362,7 +466,7 @@ main {
 
 .hero-cta-btn {
   margin-top: 1.8rem;
-  background-color: var(--white);
+  background-color: #ffffff;
   color: var(--primary-color);
   border: none;
   padding: 0.85rem 1.6rem;
@@ -376,12 +480,12 @@ main {
 
 .hero-cta-btn:hover {
   background-color: var(--primary-light);
-  color: var(--white);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 .gtld-image-frame {
-  background-color: var(--white);
+  background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -401,7 +505,7 @@ main {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--white);
+  background: #ffffff;
   border: none;
   color: var(--primary-color);
   width: 44px;
@@ -419,7 +523,7 @@ main {
 
 .hero-carousel-arrow:hover {
   background: var(--primary-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .hero-left-arrow {
@@ -449,14 +553,14 @@ main {
 }
 
 .hero-carousel-dots .dot.active {
-  background-color: var(--white);
+  background-color: #ffffff;
   transform: scale(1.2);
 }
 
 /* ================= 4. THE PROBLEM SECTION ================= */
 .problem-section {
   padding: 5rem 0;
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .section-tag {
@@ -554,7 +658,7 @@ main {
 .response-section {
   background-color: var(--primary-color);
   display: flex;
-  color: var(--white);
+  color: #ffffff;
   min-height: 450px;
 }
 
@@ -580,14 +684,14 @@ main {
   line-height: 1.2;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .response-subtext {
   font-family: 'Futura', sans-serif;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.9;
   font-weight: 300;
 }
@@ -604,12 +708,12 @@ main {
 }
 
 .response-card-overlay {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   padding: 2.5rem;
   border-radius: 6px;
   max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .card-category {
@@ -632,7 +736,7 @@ main {
 
 /* ================= 6. MISSION PAGE STYLES ================= */
 .mission-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
@@ -641,7 +745,7 @@ main {
   background-color: var(--primary-color);
   padding: 6rem 0 4rem 0;
   border-bottom: 1px solid var(--border-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .mission-page-title {
@@ -650,14 +754,14 @@ main {
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 2rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .mission-hero-text {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.7;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   max-width: 900px;
   font-weight: 300;
@@ -711,7 +815,7 @@ main {
   font-size: 2.6rem;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .values-right {
@@ -719,11 +823,11 @@ main {
 }
 
 .values-card {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   border-radius: 6px;
   padding: 3rem;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px var(--shadow-color);
   min-height: 520px;
 }
 
@@ -781,7 +885,7 @@ main {
 
 /* ================= 7. WHAT WE BUILD PAGE STYLES ================= */
 .what-we-build-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
@@ -790,14 +894,14 @@ main {
   background-color: var(--primary-color);
   padding: 5rem 0 4.5rem 0;
   border-bottom: 1px solid var(--border-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .build-tag {
   font-family: 'Futura', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 1.5rem;
@@ -810,14 +914,14 @@ main {
   line-height: 1.15;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .build-hero-text {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.65;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   max-width: 650px;
   font-weight: 300;
@@ -842,7 +946,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: var(--white);
+  color: #ffffff;
   border-radius: 6px 0 0 6px;
 }
 
@@ -850,7 +954,7 @@ main {
   font-family: 'Futura', sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 2rem;
@@ -862,7 +966,7 @@ main {
   font-size: 2.6rem;
   line-height: 1.2;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   margin-bottom: 2.5rem;
 }
 
@@ -870,14 +974,14 @@ main {
   font-family: 'Futura', sans-serif;
   font-size: 0.92rem;
   line-height: 1.7;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.9;
   font-weight: 300;
 }
 
 .initiative-right {
   flex: 0 0 65%;
-  background-color: var(--white);
+  background-color: var(--card-bg);
   padding: 3rem;
   border-radius: 0 6px 6px 0;
   border: 1px solid var(--border-light);
@@ -885,7 +989,7 @@ main {
 }
 
 .status-card {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
@@ -911,7 +1015,7 @@ main {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 122, 140, 0.1);
+  box-shadow: 0 4px 20px var(--shadow-color);
   border: 1px solid var(--border-light);
 }
 
@@ -924,7 +1028,7 @@ main {
 
 /* ================= 8. ABOUT PAGE STYLES ================= */
 .about-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
@@ -932,14 +1036,14 @@ main {
   position: relative;
   background-color: var(--primary-color);
   padding: 5rem 0 4.5rem 0;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .about-tag {
   font-family: 'Futura', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 1.5rem;
@@ -952,14 +1056,14 @@ main {
   line-height: 1.15;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .about-hero-text {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.65;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   max-width: 750px;
   font-weight: 300;
@@ -967,7 +1071,7 @@ main {
 
 .story-section {
   padding: 5rem 0;
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .story-main-title {
@@ -1054,7 +1158,7 @@ main {
 }
 
 .leadership-section {
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .leadership-header-band {
@@ -1067,7 +1171,7 @@ main {
   font-size: 2.6rem;
   line-height: 1.2;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   margin: 0;
 }
 
@@ -1086,7 +1190,7 @@ main {
   flex: 0 0 45%;
   display: flex;
   flex-direction: column;
-  background-color: var(--white);
+  background-color: var(--card-bg);
   padding: 2rem;
   border-radius: 6px;
   border: 1px solid var(--border-light);
@@ -1132,7 +1236,7 @@ main {
   width: 36px;
   height: 36px;
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   border-radius: 4px;
   transition: background-color 0.2s ease;
 }
@@ -1147,7 +1251,7 @@ main {
 }
 
 .letter-section {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   padding-bottom: 6rem;
 }
 
@@ -1163,7 +1267,7 @@ main {
   font-size: 2.6rem;
   line-height: 1.2;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .letter-content-container {
@@ -1174,7 +1278,7 @@ main {
 .letter-wrapper {
   max-width: 800px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 122, 140, 0.1);
+  box-shadow: 0 10px 30px var(--shadow-color);
   border: 1px solid var(--border-light);
   border-radius: 6px;
   overflow: hidden;
@@ -1203,13 +1307,13 @@ main {
 
 /* ================= 9. GET INVOLVED PAGE STYLES ================= */
 .get-involved-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
 .gi-hero-section {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   padding: 5rem 0 4.5rem 0;
 }
 
@@ -1219,7 +1323,7 @@ main {
   line-height: 1.15;
   font-weight: 400;
   margin-bottom: 2rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .gi-hero-title .title-bold {
@@ -1230,14 +1334,14 @@ main {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.65;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   max-width: 550px;
   font-weight: 300;
 }
 
 .gi-reachout-section {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   padding: 5rem 0;
 }
 
@@ -1398,7 +1502,7 @@ a.gi-detail-value:hover {
   max-width: 650px;
   margin: 0 auto;
   padding: 2.5rem 3rem;
-  box-shadow: 0 10px 25px rgba(0, 122, 140, 0.15);
+  box-shadow: 0 10px 25px var(--shadow-color);
   text-align: left;
 }
 
@@ -1406,7 +1510,7 @@ a.gi-detail-value:hover {
   font-family: 'Zekton', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   margin-bottom: 1.8rem;
 }
 
@@ -1429,6 +1533,7 @@ a.gi-detail-value:hover {
   font-family: 'Futura', sans-serif;
   font-size: 0.9rem;
   outline: none;
+  background-color: var(--card-bg);
   color: var(--text-dark);
 }
 
@@ -1442,7 +1547,7 @@ a.gi-detail-value:hover {
 
 .gi-submit-btn {
   width: 100%;
-  background-color: var(--white);
+  background-color: #ffffff;
   color: var(--primary-color);
   border: none;
   padding: 0.9rem;
@@ -1457,12 +1562,12 @@ a.gi-detail-value:hover {
 
 .gi-submit-btn:hover {
   background-color: var(--primary-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 /* ================= 10. BLOG PAGE STYLES ================= */
 .blog-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   min-height: calc(100vh - 130px);
 }
@@ -1472,14 +1577,14 @@ a.gi-detail-value:hover {
   background-color: var(--primary-color);
   padding: 5rem 0 3.5rem 0;
   border-bottom: 1px solid var(--border-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .blog-tag {
   font-family: 'Futura', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 1.25rem;
@@ -1492,7 +1597,7 @@ a.gi-detail-value:hover {
   line-height: 1.15;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .blog-feed-section {
@@ -1507,7 +1612,7 @@ a.gi-detail-value:hover {
 }
 
 .blog-card {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: 8px;
   padding: 2rem;
@@ -1522,14 +1627,14 @@ a.gi-detail-value:hover {
 .blog-card:hover {
   transform: translateY(-4px);
   border-color: var(--primary-color);
-  box-shadow: 0 10px 25px rgba(0, 122, 140, 0.12);
+  box-shadow: 0 10px 25px var(--shadow-color);
 }
 
 .blog-meta {
   font-family: 'Futura', sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
-  color: white;
+  color: var(--primary-color);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 0.85rem;
@@ -1605,7 +1710,7 @@ a.gi-detail-value:hover {
 
 .blog-back-btn:hover {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .single-post-content {
@@ -1649,7 +1754,7 @@ a.gi-detail-value:hover {
 }
 
 .post-nav-btn {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: 6px;
   padding: 1.25rem 1.5rem;
@@ -1670,7 +1775,7 @@ a.gi-detail-value:hover {
 
 .post-nav-btn:hover {
   border-color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(0, 122, 140, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transform: translateY(-2px);
 }
 
@@ -1694,7 +1799,7 @@ a.gi-detail-value:hover {
 
 /* ================= 11. gTLD JOURNEY PAGE STYLES ================= */
 .gtld-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   min-height: calc(100vh - 130px);
 }
@@ -1704,14 +1809,14 @@ a.gi-detail-value:hover {
   background-color: var(--primary-color);
   padding: 5rem 0 4rem 0;
   border-bottom: 1px solid var(--border-light);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .gtld-tag {
   font-family: 'Futura', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 1.25rem;
@@ -1724,19 +1829,19 @@ a.gi-detail-value:hover {
   line-height: 1.15;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .gtld-hero-title .title-teal {
   font-weight: 900;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .gtld-hero-text {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.65;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   max-width: 700px;
   font-weight: 300;
@@ -1756,12 +1861,12 @@ a.gi-detail-value:hover {
 
 .gtld-status-card {
   flex: 0 0 55%;
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   padding: 3rem;
   border-radius: 8px;
   border: 1px solid var(--border-light);
-  box-shadow: 0 8px 24px rgba(0, 122, 140, 0.08);
+  box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 .gtld-status-header {
@@ -1773,7 +1878,7 @@ a.gi-detail-value:hover {
 
 .status-badge {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   font-family: 'Futura', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
@@ -1809,7 +1914,7 @@ a.gi-detail-value:hover {
 .gtld-external-btn {
   display: inline-block;
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   padding: 0.8rem 1.4rem;
   border-radius: 4px;
   font-family: 'Futura', sans-serif;
@@ -1825,11 +1930,11 @@ a.gi-detail-value:hover {
 
 .gtld-image-container {
   flex: 0 0 40%;
-  background-color: var(--white);
+  background-color: var(--card-bg);
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-light);
-  box-shadow: 0 8px 24px rgba(0, 122, 140, 0.08);
+  box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 .gtld-milestone-img {
@@ -1841,7 +1946,7 @@ a.gi-detail-value:hover {
 
 .gtld-about-section {
   padding: 5rem 0;
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .gtld-section-title {
@@ -1912,7 +2017,7 @@ a.gi-detail-value:hover {
 }
 
 .timeline-item {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-light);
   padding: 1.8rem;
   border-radius: 6px;
@@ -1921,12 +2026,12 @@ a.gi-detail-value:hover {
 
 .timeline-item.completed {
   border-color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(0, 122, 140, 0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .timeline-item.current {
   border-color: var(--primary-color);
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .timeline-marker {
@@ -1945,11 +2050,11 @@ a.gi-detail-value:hover {
 
 .timeline-item.completed .timeline-marker {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .timeline-item.current .timeline-marker {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--primary-color);
   border-color: var(--primary-color);
 }
@@ -1972,7 +2077,7 @@ a.gi-detail-value:hover {
 
 .gtld-footer-nav {
   padding: 3rem 0;
-  background-color: var(--white);
+  background-color: var(--card-bg);
 }
 
 .gtld-back-btn {
@@ -1990,14 +2095,14 @@ a.gi-detail-value:hover {
 
 .gtld-back-btn:hover {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
 }
 
 /* ================= 12. FOOTER & BACK TO TOP ================= */
 .footer {
   background-color: var(--primary-color);
   border-top: 50px solid black;
-  color: var(--white);
+  color: #ffffff;
   padding: 2.5rem 0;
   margin-top: auto;
 }
@@ -2015,7 +2120,7 @@ a.gi-detail-value:hover {
   font-size: 0.9rem;
   line-height: 1.6;
   max-width: 800px;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.9;
   font-weight: 300;
   margin: 0;
@@ -2029,7 +2134,7 @@ a.gi-detail-value:hover {
 
 .social-icon {
   color: var(--primary-color);
-  background-color: var(--white);
+  background-color: #ffffff;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -2041,7 +2146,7 @@ a.gi-detail-value:hover {
 
 .social-icon:hover {
   background-color: var(--primary-light);
-  color: var(--white);
+  color: #ffffff;
   transform: translateY(-3px);
 }
 
@@ -2050,8 +2155,8 @@ a.gi-detail-value:hover {
   bottom: 2rem;
   right: 2rem;
   background-color: var(--primary-color);
-  color: var(--white);
-  border: 2px solid var(--white);
+  color: #ffffff;
+  border: 2px solid #ffffff;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -2093,9 +2198,9 @@ a.gi-detail-value:hover {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--white);
+    background-color: var(--dropdown-bg);
     padding: 1.5rem 0;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px var(--shadow-color);
     gap: 1.2rem;
   }
 
@@ -2284,11 +2389,11 @@ a.gi-detail-value:hover {
 
 .cta-card {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   padding: 3.5rem 3rem;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 122, 140, 0.15);
+  box-shadow: 0 10px 25px var(--shadow-color);
   max-width: 900px;
   margin: 0 auto;
 }
@@ -2299,14 +2404,14 @@ a.gi-detail-value:hover {
   line-height: 1.25;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .cta-description {
   font-family: 'Futura', sans-serif;
   font-size: 0.98rem;
   line-height: 1.6;
-  color: var(--white);
+  color: #ffffff;
   opacity: 0.95;
   font-weight: 300;
   max-width: 650px;
@@ -2315,7 +2420,7 @@ a.gi-detail-value:hover {
 
 .cta-btn {
   display: inline-block;
-  background-color: var(--white);
+  background-color: #ffffff;
   color: var(--primary-color);
   border: none;
   padding: 0.85rem 1.8rem;
@@ -2330,7 +2435,7 @@ a.gi-detail-value:hover {
 
 .cta-btn:hover {
   background-color: var(--primary-light);
-  color: var(--white);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -2358,7 +2463,7 @@ a.gi-detail-value:hover {
 }
 
 .status-link {
-  color: #007a8c;;
+  color: #007a8c;
   text-decoration: underline;
   transition: color 0.2s ease;
 }
@@ -2369,7 +2474,7 @@ a.gi-detail-value:hover {
 
 /* ================= 15. NOT FOUND PAGE STYLES ================= */
 .not-found-page {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   color: var(--text-dark);
   min-height: calc(100vh - 130px);
   display: flex;
@@ -2432,7 +2537,7 @@ a.gi-detail-value:hover {
 
 .not-found-primary-btn {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   border: none;
   padding: 0.85rem 1.8rem;
   font-family: 'Futura', sans-serif;
@@ -2463,7 +2568,7 @@ a.gi-detail-value:hover {
 
 .not-found-secondary-btn:hover {
   background-color: var(--primary-color);
-  color: var(--white);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -2501,7 +2606,7 @@ a.gi-detail-value:hover {
 }
 
 .skeleton-card {
-  background-color: var(--white);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: 8px;
   padding: 2rem;
@@ -2566,5 +2671,30 @@ a.gi-detail-value:hover {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Show desktop theme button inside nav list on large screens, hide on mobile */
+.desktop-theme-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile top right controls styling */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .desktop-theme-item {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-theme-controller {
+    display: none;
   }
 }
