@@ -176,7 +176,7 @@ export const BlogPostPage: React.FC = () => {
             <div className="post-nav-container">
               {prevPost ? (
                 <button
-                  onClick={() => navigate(`/${prevPost.slug}`)}
+                  onClick={() => navigate(`/blog/${prevPost.slug}`)}
                   className="post-nav-btn prev"
                 >
                   <span className="post-nav-label">&larr; Previous Article</span>
@@ -186,7 +186,7 @@ export const BlogPostPage: React.FC = () => {
 
               {nextPost ? (
                 <button
-                  onClick={() => navigate(`/${nextPost.slug}`)}
+                  onClick={() => navigate(`/blog/${nextPost.slug}`)}
                   className="post-nav-btn next"
                 >
                   <span className="post-nav-label">Next Article &rarr;</span>
