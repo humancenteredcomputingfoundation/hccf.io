@@ -30,7 +30,7 @@ const FALLBACK_POSTS = [
     slug: "the-weight-of-assumptions",
     title: "The Weight of Assumptions",
     author: "Riley O'Donnell",
-    date: "July 9, 2026",
+    date: "2026-07-09T00:00:00",
     excerpt: "Since the assertions of any given protocol are declarations emanating from some kind of entity, the nature of such entities...",
     content: "<p>Since the assertions of any given protocol are declarations emanating from some kind of entity, the nature of such entities determines how those assertions function in real-world systems.</p><p>When assumptions are built into core abstractions, they carry significant weight across all dependent layers.</p>"
   },
@@ -39,7 +39,7 @@ const FALLBACK_POSTS = [
     slug: "the-peculiarities-of-human-interfaces",
     title: "The Peculiarities of Human Interfaces",
     author: "Riley O'Donnell",
-    date: "July 8, 2026",
+    date: "2026-07-08T00:00:00",
     excerpt: "Aside from purely functional protocols that operate at a particular layer in the stack and are primarily used by the...",
     content: "<p>Aside from purely functional protocols that operate at a particular layer in the stack, human interfaces require specialized design principles prioritizing clarity and user autonomy.</p>"
   },
@@ -48,7 +48,7 @@ const FALLBACK_POSTS = [
     slug: "protocols-become-principles-assertions-become-assumptions",
     title: "Protocols Become Principles, Assertions Become Assumptions",
     author: "Riley O'Donnell",
-    date: "July 7, 2026",
+    date: "2026-07-07T00:00:00",
     excerpt: "Technology is often described in terms of layers, from hardware up to software, in whole comprising a stack of abstractions...",
     content: "<p>Technology is often described in terms of layers, from hardware up to software. Over time, rigid protocols evolve into foundational principles.</p>"
   },
@@ -57,7 +57,7 @@ const FALLBACK_POSTS = [
     slug: "towards-a-more-human-centered-future",
     title: "Towards a More Human-Centered Future",
     author: "Riley O'Donnell",
-    date: "July 6, 2026",
+    date: "2026-07-06T00:00:00",
     excerpt: "The Current State of the Consumer Software Industry Most consumer software products today take advantage of the humans that use...",
     content: "<p>Most consumer software products today take advantage of human attention. A human-centered paradigm shifts control back to the end user.</p>"
   },
@@ -66,7 +66,7 @@ const FALLBACK_POSTS = [
     slug: "reclaiming-our-digital-selves-hccfs-vision-for-a-human-centered-top-level-domain",
     title: "Reclaiming Our Digital Selves: HCCF's Vision for a Human-Centered Top-Level Domain",
     author: "Riley O'Donnell",
-    date: "June 21, 2026",
+    date: "2026-06-21T00:00:00",
     excerpt: "The Internet is the most powerful communication tool ever created, yet the infrastructure underpinning it has been leveraged by the...",
     content: "<p>The Internet is the most powerful communication tool ever created. Establishing digital sovereignty requires reimagining public core infrastructure like top-level domains.</p>"
   }
@@ -76,6 +76,18 @@ const calculateReadingTime = (text: string): number => {
   const plainText = text.replace(/<[^>]+>/g, '');
   const words = plainText.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
+};
+
+// Formats post date to /YYYY/MM/DD/slug
+const formatPostPath = (postDate: string, slug: string): string => {
+  const dateObj = new Date(postDate);
+  if (isNaN(dateObj.getTime())) {
+    return `/blog/${slug}`;
+  }
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  return `/${year}/${month}/${day}/${slug}`;
 };
 
 export const BlogPage: React.FC = () => {
@@ -105,10 +117,12 @@ export const BlogPage: React.FC = () => {
     const rawContent = typeof post.content === 'object' ? post.content?.rendered : (post.content || post.excerpt);
     const rawExcerpt = typeof post.excerpt === 'object' ? post.excerpt?.rendered : post.excerpt;
     const computedSlug = post.slug || (typeof post.title === 'string' ? post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '');
+    const fullPath = formatPostPath(post.date, computedSlug);
 
     return {
       id: post.id,
       slug: computedSlug,
+      path: fullPath,
       title: typeof post.title === 'object' ? post.title?.rendered : post.title,
       excerpt: rawExcerpt,
       content: rawContent,
@@ -125,7 +139,7 @@ export const BlogPage: React.FC = () => {
       <section className="blog-hero-section">
         <div className="section-container">
           <span className="blog-tag">Blog & News</span>
-          <h1 className="blog-hero-title">Towards a More Human-Centered Future</h1>
+          <h1 className="blog-hero-title">Latest Updates & Perspectives</h1>
         </div>
       </section>
 
@@ -138,7 +152,7 @@ export const BlogPage: React.FC = () => {
               {displayPosts.map((post) => (
                 <article 
                   key={post.id} 
-                  onClick={() => navigate(`/${post.slug}`)}
+                  onClick={() => navigate(post.path)}
                   className="blog-card"
                 >
                   <div>

@@ -43,13 +43,8 @@ const App: React.FC = () => {
             <Route path="/get-involved" element={<GetInvolvedPage />} />
             <Route path="/gtld-journey" element={<GtldJourneyPage />} />
             
-            {/* Matches mysite.com/blog/blog-title */}
-            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/:year/:month/:day/:slug" element={<BlogPostPage />} />
 
-            {/* Matches mysite.com/blog-title directly */}
-            <Route path="/:slug" element={<BlogPostPage />} />
-
-            {/* Catch-all route for unknown paths */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

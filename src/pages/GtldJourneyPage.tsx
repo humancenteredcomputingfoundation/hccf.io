@@ -19,7 +19,7 @@ const GtldJourneyPage: React.FC = () => {
             <span className="title-teal">Top-Level Domain</span>
           </h1>
           <p className="gtld-hero-text">
-            Documenting the Human-Centered Computing Foundation's official application process through ICANN’s Applicant Support Program to establish `.self` as a safe, ethical domain namespace.
+            Documenting the Human-Centered Computing Foundation's official application process through ICANN’s Applicant Support Program to establish <strong>.self</strong> as a safe, ethical domain namespace.
           </p>
         </div>
       </section>

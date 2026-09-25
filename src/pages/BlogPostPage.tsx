@@ -10,7 +10,7 @@ const FALLBACK_POSTS = [
     slug: "the-weight-of-assumptions",
     title: "The Weight of Assumptions",
     author: "Riley O'Donnell",
-    date: "July 9, 2026",
+    date: "2026-07-09T00:00:00",
     excerpt: "Since the assertions of any given protocol are declarations emanating from some kind of entity, the nature of such entities...",
     content: "<p>Since the assertions of any given protocol are declarations emanating from some kind of entity, the nature of such entities determines how those assertions function in real-world systems.</p><p>When assumptions are built into core abstractions, they carry significant weight across all dependent layers.</p>"
   },
@@ -19,7 +19,7 @@ const FALLBACK_POSTS = [
     slug: "the-peculiarities-of-human-interfaces",
     title: "The Peculiarities of Human Interfaces",
     author: "Riley O'Donnell",
-    date: "July 8, 2026",
+    date: "2026-07-08T00:00:00",
     excerpt: "Aside from purely functional protocols that operate at a particular layer in the stack and are primarily used by the...",
     content: "<p>Aside from purely functional protocols that operate at a particular layer in the stack, human interfaces require specialized design principles prioritizing clarity and user autonomy.</p>"
   },
@@ -28,7 +28,7 @@ const FALLBACK_POSTS = [
     slug: "protocols-become-principles-assertions-become-assumptions",
     title: "Protocols Become Principles, Assertions Become Assumptions",
     author: "Riley O'Donnell",
-    date: "July 7, 2026",
+    date: "2026-07-07T00:00:00",
     excerpt: "Technology is often described in terms of layers, from hardware up to software, in whole comprising a stack of abstractions...",
     content: "<p>Technology is often described in terms of layers, from hardware up to software. Over time, rigid protocols evolve into foundational principles.</p>"
   },
@@ -37,7 +37,7 @@ const FALLBACK_POSTS = [
     slug: "towards-a-more-human-centered-future",
     title: "Towards a More Human-Centered Future",
     author: "Riley O'Donnell",
-    date: "July 6, 2026",
+    date: "2026-07-06T00:00:00",
     excerpt: "The Current State of the Consumer Software Industry Most consumer software products today take advantage of the humans that use...",
     content: "<p>Most consumer software products today take advantage of human attention. A human-centered paradigm shifts control back to the end user.</p>"
   },
@@ -46,7 +46,7 @@ const FALLBACK_POSTS = [
     slug: "reclaiming-our-digital-selves-hccfs-vision-for-a-human-centered-top-level-domain",
     title: "Reclaiming Our Digital Selves: HCCF's Vision for a Human-Centered Top-Level Domain",
     author: "Riley O'Donnell",
-    date: "June 21, 2026",
+    date: "2026-06-21T00:00:00",
     excerpt: "The Internet is the most powerful communication tool ever created, yet the infrastructure underpinning it has been leveraged by the...",
     content: "<p>The Internet is the most powerful communication tool ever created. Establishing digital sovereignty requires reimagining public core infrastructure like top-level domains.</p>"
   }
@@ -58,8 +58,24 @@ const calculateReadingTime = (text: string): number => {
   return Math.max(1, Math.ceil(words / 200));
 };
 
+const formatPostPath = (postDate: string, slug: string): string => {
+  const dateObj = new Date(postDate);
+  if (isNaN(dateObj.getTime())) {
+    return `/${slug}`;
+  }
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  return `/${year}/${month}/${day}/${slug}`;
+};
+
 export const BlogPostPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { year, month, day, slug } = useParams<{ 
+    year?: string; 
+    month?: string; 
+    day?: string; 
+    slug?: string; 
+  }>();
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState<any[]>([]);
@@ -85,17 +101,19 @@ export const BlogPostPage: React.FC = () => {
 
     loadData();
     return () => { isMounted = false; };
-  }, [slug]);
+  }, [slug, year, month, day]);
 
-  // Format posts to standard internal shape
+  // Format posts to standard internal shape with complete URL paths
   const formattedPosts = posts.map((post: any) => {
     const rawContent = typeof post.content === 'object' ? post.content?.rendered : (post.content || post.excerpt);
     const rawExcerpt = typeof post.excerpt === 'object' ? post.excerpt?.rendered : post.excerpt;
     const computedSlug = post.slug || (typeof post.title === 'string' ? post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '');
+    const fullPath = formatPostPath(post.date, computedSlug);
 
     return {
       id: post.id,
       slug: computedSlug,
+      path: fullPath,
       title: typeof post.title === 'object' ? post.title?.rendered : post.title,
       excerpt: rawExcerpt,
       content: rawContent,
@@ -107,9 +125,14 @@ export const BlogPostPage: React.FC = () => {
     };
   });
 
-  const currentIndex = formattedPosts.findIndex(
-    (p) => p.slug.toLowerCase() === slug?.toLowerCase()
-  );
+  const targetPath = year && month && day && slug ? `/${year}/${month}/${day}/${slug}` : '';
+
+  const currentIndex = formattedPosts.findIndex((p) => {
+    if (targetPath) {
+      return p.path.toLowerCase() === targetPath.toLowerCase();
+    }
+    return p.slug.toLowerCase() === slug?.toLowerCase();
+  });
 
   const currentPost = currentIndex !== -1 ? formattedPosts[currentIndex] : null;
   const prevPost = currentIndex > 0 ? formattedPosts[currentIndex - 1] : null;
@@ -143,7 +166,7 @@ export const BlogPostPage: React.FC = () => {
     );
   }
 
-  // Render 404 page if no article matches the URL slug
+  // Render 404 page if no article matches
   if (!currentPost) {
     return <NotFound />;
   }
@@ -176,7 +199,7 @@ export const BlogPostPage: React.FC = () => {
             <div className="post-nav-container">
               {prevPost ? (
                 <button
-                  onClick={() => navigate(`/blog/${prevPost.slug}`)}
+                  onClick={() => navigate(prevPost.path)}
                   className="post-nav-btn prev"
                 >
                   <span className="post-nav-label">&larr; Previous Article</span>
@@ -186,7 +209,7 @@ export const BlogPostPage: React.FC = () => {
 
               {nextPost ? (
                 <button
-                  onClick={() => navigate(`/blog/${nextPost.slug}`)}
+                  onClick={() => navigate(nextPost.path)}
                   className="post-nav-btn next"
                 >
                   <span className="post-nav-label">Next Article &rarr;</span>

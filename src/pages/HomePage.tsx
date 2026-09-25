@@ -7,6 +7,7 @@ import heroImg2 from '../assets/hero2.jpg';
 import heroImg3 from '../assets/hero3.jpg';
 import heroImg4 from '../assets/hero4.jpg';
 import gtldSubmissionImg from '../assets/gTLD_Marked_spaced.png';
+import PamphletImg from '../assets/Pamphlet.png';
 
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -18,12 +19,14 @@ const HomePage: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const totalSlides = 3;
+
   const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
   };
 
   const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
   };
 
   const toggleAccordion = (index: number) => {
@@ -44,7 +47,7 @@ const HomePage: React.FC = () => {
     if (!touchStartX || !touchEndX) return;
     
     const distance = touchStartX - touchEndX;
-    const minSwipeDistance = 50; // Minimum distance in pixels to trigger a swipe
+    const minSwipeDistance = 50;
 
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -85,37 +88,35 @@ const HomePage: React.FC = () => {
             className="hero-carousel-track"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {/* HERO CARD 1: Core Mission */}
+            {/* HERO CARD 0: Reclaiming Our Digital Selves */}
             <div className="hero-slide">
               <div className="hero-content-wrapper">
                 <div className="hero-left">
+                  <span className="hero-badge">VISION & INSIGHTS</span>
                   <h1 className="hero-title">
-                    Technology <br />
-                    That Serves <br />
-                    <span className="title-bold">Humanity</span>
+                  Reclaiming Our <br />
+                    <span className="title-bold">Digital Selves</span>
                   </h1>
                   <p className="hero-subtext">
-                    The Human-Centered Computing Foundation builds the infrastructure, standards, and ecosystem needed to make ethical technology the default, not the exception.
+                  Explore HCCF's vision for a human-centered Top-Level Domain designed to return identity control, digital autonomy, and agency back to individuals.
                   </p>
+                  <button 
+                    className="hero-cta-btn"
+                    onClick={() => navigate('/2026/06/21/reclaiming-our-digital-selves-hccfs-vision-for-a-human-centered-top-level-domain/')}
+                  >
+                    Learn More &rarr;
+                  </button>
                 </div>
 
-                <div className="hero-right">
-                  <div className="static-images-grid">
-                    <div className="static-card">
-                      <img src={heroImg1} alt="Human centered tech 1" />
-                    </div>
-                    <div className="static-card">
-                      <img src={heroImg2} alt="Human centered tech 2" />
-                    </div>
-                    <div className="static-card">
-                      <img src={heroImg3} alt="Human centered tech 3" />
-                    </div>
+                <div className="hero-right hero-right-center">
+                  <div className="gtld-image-frame">
+                    <img src={PamphletImg} alt=".self Pamphlet" />
                   </div>
                 </div>
               </div>
             </div>
-            
-            {/* HERO CARD 2: gTLD Submission Milestone */}
+
+            {/* HERO CARD 1: gTLD Submission Milestone */}
             <div className="hero-slide">
               <div className="hero-content-wrapper">
                 <div className="hero-left">
@@ -144,9 +145,38 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
+            {/* HERO CARD 2: Core Mission */}
+            <div className="hero-slide">
+              <div className="hero-content-wrapper">
+                <div className="hero-left">
+                  <h1 className="hero-title">
+                    Technology <br />
+                    That Serves <br />
+                    <span className="title-bold">Humanity</span>
+                  </h1>
+                  <p className="hero-subtext">
+                    The Human-Centered Computing Foundation builds the infrastructure, standards, and ecosystem needed to make ethical technology the default, not the exception.
+                  </p>
+                </div>
 
+                <div className="hero-right">
+                  <div className="static-images-grid">
+                    <div className="static-card">
+                      <img src={heroImg1} alt="Human centered tech 1" />
+                    </div>
+                    <div className="static-card">
+                      <img src={heroImg2} alt="Human centered tech 2" />
+                    </div>
+                    <div className="static-card">
+                      <img src={heroImg3} alt="Human centered tech 3" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
+          {/* CAROUSEL NAVIGATION DOTS */}
           <div className="hero-carousel-dots">
             <button 
               className={`dot ${currentSlide === 0 ? 'active' : ''}`} 
@@ -157,6 +187,11 @@ const HomePage: React.FC = () => {
               className={`dot ${currentSlide === 1 ? 'active' : ''}`} 
               onClick={() => setCurrentSlide(1)}
               aria-label="Slide 2"
+            />
+            <button 
+              className={`dot ${currentSlide === 2 ? 'active' : ''}`} 
+              onClick={() => setCurrentSlide(2)}
+              aria-label="Slide 3"
             />
           </div>
         </div>

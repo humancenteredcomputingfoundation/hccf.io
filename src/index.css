@@ -1497,12 +1497,12 @@ a.gi-detail-value:hover {
 }
 
 .gi-form-card {
-  background-color: var(--primary-color);
+  background-color: var(--bg-light);
   border-radius: 8px;
   max-width: 650px;
   margin: 0 auto;
   padding: 2.5rem 3rem;
-  box-shadow: 0 10px 25px var(--shadow-color);
+  /* box-shadow: 0 10px 25px var(--shadow-color); */
   text-align: left;
 }
 
