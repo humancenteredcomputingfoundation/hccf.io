@@ -426,6 +426,59 @@ main {
   opacity: 0.95;
 }
 
+/* Hero Button Grouping */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.hero-cta-btn {
+  margin-top: 0;
+  background-color: #ffffff;
+  color: var(--primary-color);
+  border: none;
+  padding: 0.85rem 1.6rem;
+  font-family: 'Futura', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hero-cta-btn:hover {
+  background-color: var(--primary-light);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Secondary Download Button */
+.hero-secondary-btn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  padding: 0.8rem 1.6rem;
+  font-family: 'Futura', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.hero-secondary-btn:hover {
+  background-color: #ffffff;
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
 /* Card 1: Static Image Layout */
 .static-images-grid {
   display: flex;
@@ -462,26 +515,6 @@ main {
   border-radius: 3px;
   letter-spacing: 1px;
   margin-bottom: 1rem;
-}
-
-.hero-cta-btn {
-  margin-top: 1.8rem;
-  background-color: #ffffff;
-  color: var(--primary-color);
-  border: none;
-  padding: 0.85rem 1.6rem;
-  font-family: 'Futura', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.hero-cta-btn:hover {
-  background-color: var(--primary-light);
-  color: #ffffff;
-  transform: translateY(-2px);
 }
 
 .gtld-image-frame {
@@ -1502,7 +1535,6 @@ a.gi-detail-value:hover {
   max-width: 650px;
   margin: 0 auto;
   padding: 2.5rem 3rem;
-  /* box-shadow: 0 10px 25px var(--shadow-color); */
   text-align: left;
 }
 

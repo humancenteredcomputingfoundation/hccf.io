@@ -94,18 +94,30 @@ const HomePage: React.FC = () => {
                 <div className="hero-left">
                   <span className="hero-badge">VISION & INSIGHTS</span>
                   <h1 className="hero-title">
-                  Reclaiming Our <br />
+                    Reclaiming Our <br />
                     <span className="title-bold">Digital Selves</span>
                   </h1>
                   <p className="hero-subtext">
-                  Explore HCCF's vision for a human-centered Top-Level Domain designed to return identity control, digital autonomy, and agency back to individuals.
+                    Explore HCCF's vision for a human-centered Top-Level Domain designed to return identity control, digital autonomy, and agency back to individuals.
                   </p>
-                  <button 
-                    className="hero-cta-btn"
-                    onClick={() => navigate('/2026/06/21/reclaiming-our-digital-selves-hccfs-vision-for-a-human-centered-top-level-domain/')}
-                  >
-                    Learn More &rarr;
-                  </button>
+                  
+                  {/* Hero Actions Container */}
+                  <div className="hero-actions">
+                    <button 
+                      className="hero-cta-btn"
+                      onClick={() => navigate('/2026/06/21/reclaiming-our-digital-selves-hccfs-vision-for-a-human-centered-top-level-domain/')}
+                    >
+                      Learn More &rarr;
+                    </button>
+
+                    <a 
+                      href="/assets/dot-self.pdf" 
+                      download="dot-self.pdf" 
+                      className="hero-secondary-btn"
+                    >
+                      Download Pamphlet &darr;
+                    </a>
+                  </div>
                 </div>
 
                 <div className="hero-right hero-right-center">
