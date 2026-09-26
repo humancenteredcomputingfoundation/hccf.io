@@ -54,6 +54,8 @@ const GtldJourneyPage: React.FC = () => {
                 src={gtldSubmissionImg}
                 alt="ICANN Application Milestones showing Submitted status"
                 className="gtld-milestone-img"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

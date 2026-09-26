@@ -41,6 +41,8 @@ const AboutPage: React.FC = () => {
                 src={nonprofitImg}
                 alt="#PEOPLE NOT PROFIT sign"
                 className="story-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -120,7 +122,13 @@ const AboutPage: React.FC = () => {
               <div className="leader-card">
                 <h3 className="leader-name">James Riley O'Donnell, CEO</h3>
                 <div className="leader-image-wrapper">
-                  <img src={rileyImg} alt="James Riley O'Donnell" className="leader-image" />
+                  <img 
+                    src={rileyImg} 
+                    alt="James Riley O'Donnell" 
+                    className="leader-image" 
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <p className="leader-bio">
                   Riley is an entrepreneur and computer engineer with over 15 years of experience operating in large-scale environments. He is passionate about technology and humanity and wants to see technology better serve human needs.
@@ -142,7 +150,13 @@ const AboutPage: React.FC = () => {
               <div className="leader-card">
                 <h3 className="leader-name">Lucas Silva, COO</h3>
                 <div className="leader-image-wrapper">
-                  <img src={lucasImg} alt="Lucas Silva" className="leader-image" />
+                  <img 
+                    src={lucasImg} 
+                    alt="Lucas Silva" 
+                    className="leader-image" 
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <p className="leader-bio">
                   Lucas has a wealth of experience in developing digital products focused on people. He has led highly successful tech teams through consulting and mentoring, enabling individual contributors to succeed in their roles.
@@ -175,6 +189,8 @@ const AboutPage: React.FC = () => {
               src={letter501Img}
               alt="IRS 501(c)(3) Determination Letter"
               className="irs-letter-image"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

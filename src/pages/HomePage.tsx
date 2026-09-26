@@ -128,7 +128,12 @@ const HomePage: React.FC = () => {
 
                 <div className="hero-right hero-right-center">
                   <div className="gtld-image-frame">
-                    <img src={PamphletImg} alt=".self Pamphlet" />
+                    <img 
+                      src={PamphletImg} 
+                      alt=".self Pamphlet" 
+                      loading="lazy" 
+                      decoding="async" 
+                    />
                   </div>
                 </div>
               </div>
@@ -162,6 +167,8 @@ const HomePage: React.FC = () => {
                     <img
                       src={gtldSubmissionImg}
                       alt="gTLD Application Submitted Milestone"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>
@@ -187,13 +194,28 @@ const HomePage: React.FC = () => {
                 <div className="hero-right">
                   <div className="static-images-grid">
                     <div className="static-card">
-                      <img src={heroImg1} alt="Human centered tech 1" />
+                      <img 
+                        src={heroImg1} 
+                        alt="Human centered tech 1" 
+                        loading="lazy" 
+                        decoding="async" 
+                      />
                     </div>
                     <div className="static-card">
-                      <img src={heroImg2} alt="Human centered tech 2" />
+                      <img 
+                        src={heroImg2} 
+                        alt="Human centered tech 2" 
+                        loading="lazy" 
+                        decoding="async" 
+                      />
                     </div>
                     <div className="static-card">
-                      <img src={heroImg3} alt="Human centered tech 3" />
+                      <img 
+                        src={heroImg3} 
+                        alt="Human centered tech 3" 
+                        loading="lazy" 
+                        decoding="async" 
+                      />
                     </div>
                   </div>
                 </div>

@@ -52,14 +52,14 @@ const WhatWeBuildPage: React.FC = () => {
                   src={letterImg}
                   alt="ICANN Application Support Program Approval Letter"
                   className="letter-image"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
           </div>
         </div>
       </section>
-
-{/* Other Initiatives Go Here */}
 
       {/* 6. CALL TO ACTION SECTION */}
       <section className="page-cta-section">
