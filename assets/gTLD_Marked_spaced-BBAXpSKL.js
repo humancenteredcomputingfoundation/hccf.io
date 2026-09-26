@@ -1,0 +1,1 @@
+var e=`/assets/gTLD_Marked_spaced-0ny2hCLX.png`;export{e as t};
