@@ -1,10 +1,12 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './index.css';
 
-// Lazy load route pages
+ReactGA.initialize('G-4E9K5WNZKG');
+
 const HomePage = lazy(() => import('./pages/HomePage'));
 const MissionPage = lazy(() => import('./pages/MissionPage'));
 const WhatWeBuildPage = lazy(() => import('./pages/WhatWeBuildPage'));
@@ -13,9 +15,21 @@ const GetInvolvedPage = lazy(() => import('./pages/GetInvolvedPage'));
 const GtldJourneyPage = lazy(() => import('./pages/GtldJourneyPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Named exports require mapping the module default
 const BlogPage = lazy(() => import('./pages/BlogPage').then(module => ({ default: module.BlogPage })));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage').then(module => ({ default: module.BlogPostPage })));
+
+const PageTracker: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({
+      hitType: 'pageview',
+      page: location.pathname + location.search,
+    });
+  }, [location]);
+
+  return null;
+};
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -31,7 +45,6 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// Fallback loader displayed while page route chunks load
 const PageLoader: React.FC = () => (
   <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div className="blog-loading">Loading...</div>
@@ -41,6 +54,7 @@ const PageLoader: React.FC = () => (
 const App: React.FC = () => {
   return (
     <Router>
+      <PageTracker />
       <ScrollToTop />
       <div className="app-container">
         <Navbar />
