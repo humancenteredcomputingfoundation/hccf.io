@@ -103,7 +103,6 @@ export const BlogPostPage: React.FC = () => {
     return () => { isMounted = false; };
   }, [slug, year, month, day]);
 
-  // Format posts to standard internal shape with complete URL paths
   const formattedPosts = posts.map((post: any) => {
     const rawContent = typeof post.content === 'object' ? post.content?.rendered : (post.content || post.excerpt);
     const rawExcerpt = typeof post.excerpt === 'object' ? post.excerpt?.rendered : post.excerpt;
@@ -125,20 +124,23 @@ export const BlogPostPage: React.FC = () => {
     };
   });
 
-  const targetPath = year && month && day && slug ? `/${year}/${month}/${day}/${slug}` : '';
+  // Clean trailing slashes or single-digit month/day params for robust matching
+  const cleanSlug = slug ? slug.replace(/\/$/, '') : '';
+  const paddedMonth = month ? String(month).padStart(2, '0') : '';
+  const paddedDay = day ? String(day).padStart(2, '0') : '';
+  const targetPath = year && paddedMonth && paddedDay && cleanSlug ? `/${year}/${paddedMonth}/${paddedDay}/${cleanSlug}` : '';
 
   const currentIndex = formattedPosts.findIndex((p) => {
     if (targetPath) {
       return p.path.toLowerCase() === targetPath.toLowerCase();
     }
-    return p.slug.toLowerCase() === slug?.toLowerCase();
+    return p.slug.toLowerCase() === cleanSlug.toLowerCase();
   });
 
   const currentPost = currentIndex !== -1 ? formattedPosts[currentIndex] : null;
   const prevPost = currentIndex > 0 ? formattedPosts[currentIndex - 1] : null;
   const nextPost = currentIndex !== -1 && currentIndex < formattedPosts.length - 1 ? formattedPosts[currentIndex + 1] : null;
 
-  // Render Single Article Skeleton Screen
   if (loading) {
     return (
       <div className="blog-page">
@@ -166,7 +168,6 @@ export const BlogPostPage: React.FC = () => {
     );
   }
 
-  // Render 404 page if no article matches
   if (!currentPost) {
     return <NotFound />;
   }
@@ -195,7 +196,6 @@ export const BlogPostPage: React.FC = () => {
               dangerouslySetInnerHTML={{ __html: currentPost.content }}
             />
 
-            {/* Previous & Next Post Navigation */}
             <div className="post-nav-container">
               {prevPost ? (
                 <button

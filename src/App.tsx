@@ -62,14 +62,27 @@ const App: React.FC = () => {
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              
               <Route path="/mission" element={<MissionPage />} />
+              <Route path="/mission/" element={<MissionPage />} />
+
               <Route path="/what-we-build" element={<WhatWeBuildPage />} />
+              <Route path="/what-we-build/" element={<WhatWeBuildPage />} />
+
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/about/" element={<AboutPage />} />
+
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/" element={<BlogPage />} />
+
               <Route path="/get-involved" element={<GetInvolvedPage />} />
+              <Route path="/get-involved/" element={<GetInvolvedPage />} />
+
               <Route path="/gtld-journey" element={<GtldJourneyPage />} />
+              <Route path="/gtld-journey/" element={<GtldJourneyPage />} />
               
               <Route path="/:year/:month/:day/:slug" element={<BlogPostPage />} />
+              <Route path="/:year/:month/:day/:slug/" element={<BlogPostPage />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>

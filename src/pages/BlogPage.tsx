@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { fetchBlogPosts } from '../services/wordpress';
 import { WPPost } from '../types/wordpress';
 
-// Skeleton Component for the Feed Grid
 const BlogGridSkeleton: React.FC = () => {
   return (
     <div className="skeleton-grid">
@@ -78,7 +77,6 @@ const calculateReadingTime = (text: string): number => {
   return Math.max(1, Math.ceil(words / 200));
 };
 
-// Formats post date to /YYYY/MM/DD/slug
 const formatPostPath = (postDate: string, slug: string): string => {
   const dateObj = new Date(postDate);
   if (isNaN(dateObj.getTime())) {
