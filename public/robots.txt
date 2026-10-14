@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hccf.onmy.cloud/sitemap.xml

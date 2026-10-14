@@ -8,7 +8,8 @@ export const fetchBlogPosts = async (): Promise<WPPost[]> => {
   const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
-    const response = await fetch(`${WP_API_URL}/posts?_embed`, {
+    // per_page=100 because WordPress returns only 10 posts by default
+    const response = await fetch(`${WP_API_URL}/posts?_embed&per_page=100`, {
       method: 'GET',
       mode: 'cors',
       signal: controller.signal,

@@ -5,21 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="4W1m4s_s2VIOuycR5pSBJFedqENaK7VnjMo3M9hvOQ8" />
-    
-    <link rel="canonical" href="https://hccf.onmy.cloud/" />
 
-    <script type="text/javascript">
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location));
-    </script>
+    <!-- Default canonical (homepage). scripts/prerender.mjs rewrites this per page at build time. -->
+    <link rel="canonical" href="https://hccf.onmy.cloud/" />
 
     <title>Human-Centered Computing Foundation</title>
   </head>
