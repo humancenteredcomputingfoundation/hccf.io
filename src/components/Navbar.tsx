@@ -37,6 +37,7 @@ const Navbar: React.FC = () => {
   const [mobileThemeOpen, setMobileThemeOpen] = useState<boolean>(false);
   const [desktopThemeOpen, setDesktopThemeOpen] = useState<boolean>(false);
 
+  const navbarRef = useRef<HTMLElement>(null);
   const mobileThemeRef = useRef<HTMLDivElement>(null);
   const desktopThemeRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +70,40 @@ const Navbar: React.FC = () => {
         break;
     }
   }, [location]);
+
+  // Keep tablet content and the scrollable drawer aligned with the real header.
+  useEffect(() => {
+    const navbar = navbarRef.current;
+    if (!navbar) return;
+    const updateHeight = () => document.documentElement.style.setProperty(
+      '--tablet-header-height', `${navbar.getBoundingClientRect().height}px`
+    );
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(navbar);
+    const closeMenus = () => {
+      setIsOpen(false);
+      setAboutDropdownOpen(false);
+      setGetInvolvedDropdownOpen(false);
+      setMobileThemeOpen(false);
+      setDesktopThemeOpen(false);
+    };
+    const desktop = window.matchMedia('(min-width: 1200px)');
+    const handleLayoutChange = () => closeMenus();
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMenus();
+        if (isOpen) navbar.querySelector<HTMLButtonElement>('.hamburger')?.focus();
+      }
+    };
+    desktop.addEventListener('change', handleLayoutChange);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      observer.disconnect();
+      desktop.removeEventListener('change', handleLayoutChange);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen]);
 
   // Scroll detection hook
   useEffect(() => {
@@ -183,7 +218,7 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+    <nav ref={navbarRef} className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       {/* Logo */}
       <div className="logo-container">
         <Link to="/" onClick={() => handleNavClick('HOME')}>
@@ -210,7 +245,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Hamburger Icon */}
-        <button className="hamburger" onClick={toggleMenu} aria-label="Toggle Navigation">
+        <button className="hamburger" onClick={toggleMenu} aria-label="Toggle Navigation" aria-expanded={isOpen} aria-controls="primary-navigation">
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
@@ -218,7 +253,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Navigation Links */}
-      <ul className={`nav-menu ${isOpen ? 'open' : ''}`}>
+      <ul id="primary-navigation" className={`nav-menu ${isOpen ? 'open' : ''}`}>
         {navItems.map((item) => (
           <li
             key={item.name}
@@ -239,16 +274,8 @@ const Navbar: React.FC = () => {
           className={`nav-item dropdown ${
             activeItem === 'ABOUT' || activeItem === 'GTLD' ? 'active' : ''
           } ${aboutDropdownOpen ? 'dropdown-open' : ''}`}
-          onMouseEnter={() => setAboutDropdownOpen(true)}
-          onMouseLeave={() => setAboutDropdownOpen(false)}
         >
-          <div
-            className="dropdown-trigger"
-            onClick={(e) => {
-              e.stopPropagation();
-              setAboutDropdownOpen(!aboutDropdownOpen);
-            }}
-          >
+          <div className="dropdown-trigger">
             <Link
               to="/about"
               className="nav-link"
@@ -256,10 +283,19 @@ const Navbar: React.FC = () => {
             >
               ABOUT
             </Link>
-            <span className="dropdown-icon">▾</span>
+            <button
+              type="button"
+              className="dropdown-toggle"
+              aria-label="Toggle About submenu"
+              aria-expanded={aboutDropdownOpen}
+              aria-controls="about-submenu"
+              onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+            >
+              <span className="dropdown-icon" aria-hidden="true">▾</span>
+            </button>
           </div>
 
-          <ul className="dropdown-menu">
+          <ul id="about-submenu" className="dropdown-menu">
             <li className="dropdown-item">
               <Link
                 to="/gtld-journey"
@@ -288,16 +324,8 @@ const Navbar: React.FC = () => {
           className={`nav-item dropdown ${
             activeItem === 'GET INVOLVED' || activeItem === 'COMMUNITY' ? 'active' : ''
           } ${getInvolvedDropdownOpen ? 'dropdown-open' : ''}`}
-          onMouseEnter={() => setGetInvolvedDropdownOpen(true)}
-          onMouseLeave={() => setGetInvolvedDropdownOpen(false)}
         >
-          <div
-            className="dropdown-trigger"
-            onClick={(e) => {
-              e.stopPropagation();
-              setGetInvolvedDropdownOpen(!getInvolvedDropdownOpen);
-            }}
-          >
+          <div className="dropdown-trigger">
             <Link
               to="/get-involved"
               className="nav-link"
@@ -305,10 +333,19 @@ const Navbar: React.FC = () => {
             >
               GET INVOLVED
             </Link>
-            <span className="dropdown-icon">▾</span>
+            <button
+              type="button"
+              className="dropdown-toggle"
+              aria-label="Toggle Get involved submenu"
+              aria-expanded={getInvolvedDropdownOpen}
+              aria-controls="getInvolved-submenu"
+              onClick={() => setGetInvolvedDropdownOpen(!getInvolvedDropdownOpen)}
+            >
+              <span className="dropdown-icon" aria-hidden="true">▾</span>
+            </button>
           </div>
 
-          <ul className="dropdown-menu">
+          <ul id="getInvolved-submenu" className="dropdown-menu">
             <li className="dropdown-item">
               <a
                 href="https://community.hccf.onmy.cloud"

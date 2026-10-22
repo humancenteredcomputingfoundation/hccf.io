@@ -2205,7 +2205,7 @@ a.gi-detail-value:hover {
 }
 
 /* ================= 13. RESPONSIVE BREAKPOINTS ================= */
-@media (max-width: 900px) {
+@media (max-width: 1199px) {
   main {
     padding-top: 100px;
   }
@@ -2724,14 +2724,79 @@ a.gi-detail-value:hover {
   gap: 0.75rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1199px) {
   .desktop-theme-item {
     display: none;
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1200px) {
   .mobile-theme-controller {
     display: none;
   }
+}
+
+/* Shared, keyboard-accessible submenu arrows. */
+.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+.dropdown-toggle .dropdown-icon { display: inline-block; }
+.dropdown-toggle:focus-visible,
+.hamburger:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; }
+
+@media (max-width: 1199px) {
+  .nav-menu {
+    max-height: calc(100vh - var(--tablet-header-height, 130px));
+    max-height: calc(100dvh - var(--tablet-header-height, 130px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  /* Touch menus open explicitly, avoiding sticky hover on tablets. */
+  .nav-menu .dropdown:not(.dropdown-open) .dropdown-menu { display: none; }
+  .nav-menu .dropdown-open .dropdown-menu { display: block; }
+  .nav-menu .nav-link, .nav-menu .dropdown-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .dropdown-toggle, .hamburger, .mobile-theme-controller .theme-toggle-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .hamburger { justify-content: center; align-items: center; }
+  .nav-menu .dropdown-link { white-space: normal; }
+}
+
+/* Tablet spacing: phone and full desktop sizes retain their original layout. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  main { padding-top: var(--tablet-header-height, 130px); transition: none; }
+  .navbar, .navbar.scrolled { padding-left: 2rem; padding-right: 2rem; }
+  .nav-controls { flex-shrink: 0; }
+  .hero-section { padding: 3rem 2rem; }
+  .hero-slide { padding: 0 1rem; }
+  .hero-content-wrapper { max-width: 900px; gap: 2rem; }
+  .hero-left, .hero-right { flex: 0 1 auto; min-width: 0; }
+  .hero-left { padding-right: 0; }
+  .hero-right { margin-top: 0; justify-content: center; }
+  .hero-title { font-size: clamp(2.6rem, 4.6vw, 3.1rem); }
+  .hero-actions { gap: 0.875rem; }
+  .static-images-grid { gap: 1rem; }
+  .static-card { height: clamp(220px, 28vw, 300px); }
+  .response-left, .response-right, .initiative-left, .initiative-right,
+  .story-image-container, .story-accordion-list, .leader-card,
+  .gtld-status-card, .gtld-image-container, .values-left, .values-right {
+    flex-basis: auto;
+    min-width: 0;
+  }
+  .blog-grid, .skeleton-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gi-form-row > *, .blog-card { min-width: 0; }
+  .gi-form-card input, .gi-form-card textarea, .gi-form-card select { max-width: 100%; }
 }
