@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../index.css';
 
 interface ValueItem {
@@ -50,6 +51,7 @@ const MissionPage: React.FC = () => {
           <p className="mission-hero-text">
             We serve as a nexus between industry, academia, digital rights organizations, and the general public to work together to understand and address issues related to technology and the humans that use them. Our first core objective is to own and operate a unique Top-Level Domain that is dedicated solely to creating a network of human-centered devices operating at human scale, i.e. self-hosting.
           </p>
+          <p className="mission-guide-action"><Link className="cta-btn cta-btn-link" to="/human-centered-computing">Explore our guide to human-centered computing</Link></p>
         </div>
       </section>
 

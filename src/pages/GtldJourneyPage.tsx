@@ -66,6 +66,7 @@ const GtldJourneyPage: React.FC = () => {
       <section className="gtld-about-section">
         <div className="section-container">
           <h2 className="gtld-section-title">About the .self gTLD</h2>
+          <p><a href="/self" className="gtld-inline-link">Explore the .self information hub</a></p>
           <div className="gtld-two-col">
             <div className="gtld-col-text">
               <p>
@@ -113,15 +114,15 @@ const GtldJourneyPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="timeline-item current">
-              <div className="timeline-marker">&bull;</div>
+            <div className="timeline-item completed">
+              <div className="timeline-marker">&#10003;</div>
               <div className="timeline-content">
                 <h3>2. Pre-Evaluation Processing</h3>
                 <p>Underway. Verification of eligibility criteria, financial stability, and operational capabilities.</p>
               </div>
             </div>
 
-            <div className="timeline-item pending">
+            <div className="timeline-item current">
               <div className="timeline-marker">&bull;</div>
               <div className="timeline-content">
                 <h3>3. String Evaluation & Contention</h3>

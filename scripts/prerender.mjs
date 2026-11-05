@@ -1,15 +1,6 @@
-// scripts/prerender.mjs
-// Runs automatically after `vite build` via the "postbuild" npm script.
-//
-// GitHub Pages returns HTTP 404 for any path that isn't a real file, even if a
-// 404.html redirect makes the page render in a browser. Google sees the 404.
-// This script writes a real index.html for every route so they return 200,
-// sets a per-page <title>/canonical/description, and generates sitemap.xml.
-// It also replaces 404.html with the app shell (no redirect), so unknown URLs
-// return a true 404 and React renders <NotFound />.
-
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { createServer } from 'vite';
 
 const SITE = 'https://hccf.onmy.cloud';
 const SITE_NAME = 'Human-Centered Computing Foundation';
@@ -18,12 +9,14 @@ const DIST = path.resolve('dist');
 
 // Add an optional `description` to any entry to emit a meta description.
 const STATIC_ROUTES = [
-  { path: '/mission/', title: 'Mission' },
-  { path: '/what-we-build/', title: 'What We Build' },
-  { path: '/about/', title: 'About' },
+  { path: '/mission/', title: 'Our Mission: Human-Centered Computing | HCCF', description: 'Explore HCCF’s mission to advance people-first technology, privacy, data sovereignty, and digital autonomy.' },
+  { path: '/what-we-build/', title: 'Human-Centered Infrastructure and Initiatives | HCCF', description: 'Explore HCCF initiatives for human-centered infrastructure, technical standards, certification, and nonprofit support.' },
+  { path: '/about/', title: 'About HCCF', description: 'Learn about the Human-Centered Computing Foundation and its nonprofit mission to advance technology that serves people.' },
   { path: '/blog/', title: 'Blog & News' },
-  { path: '/get-involved/', title: 'Get Involved' },
-  { path: '/gtld-journey/', title: 'gTLD Journey' },
+  { path: '/get-involved/', title: 'Partner With or Support HCCF', description: 'Discover how to support or partner with HCCF in advancing human-centered technology.' },
+  { path: '/self-gtld/', title: '.self TLD Status and Application Journey | HCCF', description: 'Follow the application milestones and published status of HCCF’s proposed .self top-level domain.' },
+  { path: '/self/', title: '.self: A Proposed TLD for Self-Hosting | HCCF', description: 'Learn about HCCF’s proposed .self top-level domain for human-centered computing, self-hosting, and digital autonomy.' },
+  { path: '/human-centered-computing/', title: 'What Is Human-Centered Computing? | HCCF', description: 'Learn how human-centered computing puts people, privacy, data sovereignty, and autonomy first.' },
 ];
 
 // ---------- helpers ----------
@@ -52,8 +45,8 @@ const esc = (s) =>
 
 const truncate = (s, n = 160) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 
-function renderPage(template, { urlPath, title, description, noindex = false }) {
-  const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+function renderPage(template, { urlPath, title, description, noindex = false, content = null }) {
+  const fullTitle = title === SITE_NAME || title.endsWith(' | HCCF') ? title : `${title} | HCCF`;
   let html = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(fullTitle)}</title>`);
 
   const extra = [];
@@ -72,6 +65,12 @@ function renderPage(template, { urlPath, title, description, noindex = false }) 
     extra.push(`<meta name="description" content="${esc(truncate(description))}" />`);
   }
   if (extra.length) html = html.replace('</head>', `    ${extra.join('\n    ')}\n  </head>`);
+  if (content !== null) {
+    html = html.replace('<div id="root"></div>', `<div id="root">${content}</div>`);
+    // React uses createRoot, not hydrateRoot: remove the server snapshot before client mount.
+    // The initial HTML remains fully crawlable even without JavaScript.
+    html = html.replace('<script type="module"', '<script>document.getElementById("root").replaceChildren();</script>\n    <script type="module"');
+  }
   return html;
 }
 
@@ -105,6 +104,16 @@ const postPath = (post) => {
 // ---------- main ----------
 
 const template = await fs.readFile(path.join(DIST, 'index.html'), 'utf8');
+const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
+let renderStaticPage;
+try {
+  ({ renderStaticPage } = await vite.ssrLoadModule('/src/entry-server.jsx'));
+} finally {
+  await vite.close();
+}
+const homepage = renderStaticPage('/');
+if (!homepage || !homepage.includes('Reclaiming Our')) throw new Error('Homepage prerender returned empty content');
+await fs.writeFile(path.join(DIST, 'index.html'), renderPage(template, { urlPath: '/', title: `${SITE_NAME} | HCCF`, description: 'HCCF is a nonprofit advancing human-centered computing, digital autonomy, privacy, and technology that serves people.', content: homepage }));
 
 const posts = await fetchAllPosts();
 if (posts.length === 0) {
@@ -115,9 +124,13 @@ const sitemapEntries = [{ loc: `${SITE}/`, lastmod: null }];
 
 // Static routes
 for (const route of STATIC_ROUTES) {
+  const content = renderStaticPage(route.path);
+  if (!content || !content.trim()) {
+    throw new Error(`Cannot publish ${route.path}: prerender returned empty content`);
+  }
   await writePage(
     route.path,
-    renderPage(template, { urlPath: route.path, title: route.title, description: route.description })
+    renderPage(template, { urlPath: route.path, title: route.title, description: route.description, content })
   );
   sitemapEntries.push({ loc: `${SITE}${route.path}`, lastmod: null });
 }
@@ -131,7 +144,17 @@ for (const post of posts) {
   sitemapEntries.push({ loc: `${SITE}${urlPath}`, lastmod: post.modified?.slice(0, 10) ?? null });
 }
 
-// 404.html: app shell, no redirect, noindex. GitHub Pages serves it with a real 404 status.
+// A canonical + immediate HTML redirect
+// preserves old inbound links, but the server status remains 200 (not a true 301).
+const legacy = renderPage(template, { urlPath: '/about/', title: 'About HCCF', noindex: true });
+await writePage('/about-us/', legacy.replace('</head>', '<meta http-equiv="refresh" content="0;url=/about/" /><script>location.replace("/about/")</script></head>'));
+
+// Preserve legacy inbound links
+// with an immediate client-side redirect and noindex on the old path.
+const oldGtld = renderPage(template, { urlPath: '/self-gtld/', title: '.self TLD Status and Application Journey | HCCF', noindex: true });
+await writePage('/gtld-journey/', oldGtld.replace('</head>', '<meta http-equiv="refresh" content="0;url=/self-gtld/" /><script>location.replace("/self-gtld/")</script></head>'));
+
+// 404.html: app shell, no redirect, noindex.
 await fs.writeFile(
   path.join(DIST, '404.html'),
   renderPage(template, { urlPath: '/404.html', title: 'Page not found', noindex: true })
@@ -151,5 +174,5 @@ const sitemap =
 await fs.writeFile(path.join(DIST, 'sitemap.xml'), sitemap);
 
 console.log(
-  `Prerendered ${STATIC_ROUTES.length} static routes, ${posts.length} posts, 404.html and sitemap.xml`
+  `Prerendered homepage, ${STATIC_ROUTES.length} static routes, ${posts.length} posts, 404.html and sitemap.xml`
 );

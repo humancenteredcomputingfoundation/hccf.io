@@ -44,9 +44,10 @@ const WhatWeBuildPage: React.FC = () => {
               <h3 className="status-title">Current Status</h3>
               <p className="status-text">
                 We are one of the 56 approved organizations for ICANN's Applicant Support Program (ASP) in April 2026. Our application for .self in the gTLD 2026 round was submitted on 12 August 2026. We are now waiting for the review day expected for October 2026.{' '}
-                <Link to="/gtld-journey" className="status-link">Click here to learn more about our gTLD application journey.</Link>
+                <Link to="/self-gtld" className="status-link">Click here to learn more about our gTLD application journey.</Link>
               </p>
               <p className="status-text">See below our ASP approval letter.</p>
+              <p className="status-text"><Link to="/self" className="status-link">Learn about the proposed .self domain.</Link></p>
               <div className="letter-container">
                 <img
                   src={letterImg}
@@ -69,7 +70,7 @@ const WhatWeBuildPage: React.FC = () => {
             <p className="cta-description">
               Track key milestones, read our submitted applications, and stay informed on our roadmap toward launching a human-first TLD infrastructure.
             </p>
-            <button className="cta-btn" onClick={() => navigate('/gtld-journey')}>
+            <button className="cta-btn" onClick={() => navigate('/self-gtld')}>
               Explore Our gTLD Journey &rarr;
             </button>
           </div>

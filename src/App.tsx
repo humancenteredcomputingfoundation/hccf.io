@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -13,6 +13,8 @@ const WhatWeBuildPage = lazy(() => import('./pages/WhatWeBuildPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const GetInvolvedPage = lazy(() => import('./pages/GetInvolvedPage'));
 const GtldJourneyPage = lazy(() => import('./pages/GtldJourneyPage'));
+const SelfPage = lazy(() => import('./pages/SelfPage'));
+const HumanCenteredGuidePage = lazy(() => import('./pages/HumanCenteredGuidePage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const BlogPage = lazy(() => import('./pages/BlogPage').then(module => ({ default: module.BlogPage })));
@@ -20,6 +22,23 @@ const BlogPostPage = lazy(() => import('./pages/BlogPostPage').then(module => ({
 
 const PageTracker: React.FC = () => {
   const location = useLocation();
+
+  useEffect(() => {
+    const pageTitles: Record<string, string> = {
+      '/': 'Human-Centered Computing Foundation | HCCF',
+      '/mission/': 'Our Mission: Human-Centered Computing | HCCF',
+      '/what-we-build/': 'Human-Centered Infrastructure and Initiatives | HCCF',
+      '/self/': '.self: A Proposed TLD for Self-Hosting | HCCF',
+      '/self-gtld/': '.self TLD Status and Application Journey | HCCF',
+      '/get-involved/': 'Partner With or Support HCCF',
+      '/about/': 'About HCCF | HCCF',
+      '/human-centered-computing/': 'What Is Human-Centered Computing? | HCCF',
+      '/blog/': 'Blog & News | HCCF',
+    };
+    const normalizedPath = location.pathname === '/' ? '/' : `${location.pathname.replace(/\/$/, '')}/`;
+    const title = pageTitles[normalizedPath];
+    if (title) document.title = title;
+  }, [location.pathname]);
 
   useEffect(() => {
     ReactGA.send({
@@ -78,8 +97,16 @@ const App: React.FC = () => {
               <Route path="/get-involved" element={<GetInvolvedPage />} />
               <Route path="/get-involved/" element={<GetInvolvedPage />} />
 
-              <Route path="/gtld-journey" element={<GtldJourneyPage />} />
-              <Route path="/gtld-journey/" element={<GtldJourneyPage />} />
+              <Route path="/self" element={<SelfPage />} />
+              <Route path="/self/" element={<SelfPage />} />
+              <Route path="/human-centered-computing" element={<HumanCenteredGuidePage />} />
+              <Route path="/human-centered-computing/" element={<HumanCenteredGuidePage />} />
+              <Route path="/about-us" element={<AboutPage />} />
+              <Route path="/about-us/" element={<AboutPage />} />
+              <Route path="/gtld-journey" element={<Navigate to="/self-gtld/" replace />} />
+              <Route path="/gtld-journey/" element={<Navigate to="/self-gtld/" replace />} />
+              <Route path="/self-gtld" element={<GtldJourneyPage />} />
+              <Route path="/self-gtld/" element={<GtldJourneyPage />} />
               
               <Route path="/:year/:month/:day/:slug" element={<BlogPostPage />} />
               <Route path="/:year/:month/:day/:slug/" element={<BlogPostPage />} />

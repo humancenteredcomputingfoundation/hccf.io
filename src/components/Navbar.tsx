@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 
   // Theme control states
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-    return (localStorage.getItem('themeMode') as ThemeMode) || 'system';
+    return (typeof localStorage !== 'undefined' ? (localStorage.getItem('themeMode') as ThemeMode) : null) || 'system';
   });
   const [mobileThemeOpen, setMobileThemeOpen] = useState<boolean>(false);
   const [desktopThemeOpen, setDesktopThemeOpen] = useState<boolean>(false);
@@ -56,7 +56,10 @@ const Navbar: React.FC = () => {
       case '/about':
         setActiveItem('ABOUT');
         break;
-      case '/gtld-journey':
+      case '/self':
+        setActiveItem('SELF');
+        break;
+      case '/self-gtld':
         setActiveItem('GTLD');
         break;
       case '/blog':
@@ -272,7 +275,7 @@ const Navbar: React.FC = () => {
         {/* ABOUT Dropdown */}
         <li
           className={`nav-item dropdown ${
-            activeItem === 'ABOUT' || activeItem === 'GTLD' ? 'active' : ''
+            activeItem === 'ABOUT' || activeItem === 'GTLD' || activeItem === 'SELF' ? 'active' : ''
           } ${aboutDropdownOpen ? 'dropdown-open' : ''}`}
         >
           <div className="dropdown-trigger">
@@ -297,8 +300,11 @@ const Navbar: React.FC = () => {
 
           <ul id="about-submenu" className="dropdown-menu">
             <li className="dropdown-item">
+              <Link to="/self" className={`dropdown-link ${activeItem === 'SELF' ? 'active-sublink' : ''}`} onClick={() => handleNavClick('SELF')}>.SELF</Link>
+            </li>
+            <li className="dropdown-item">
               <Link
-                to="/gtld-journey"
+                to="/self-gtld"
                 className={`dropdown-link ${activeItem === 'GTLD' ? 'active-sublink' : ''}`}
                 onClick={() => handleNavClick('GTLD')}
               >

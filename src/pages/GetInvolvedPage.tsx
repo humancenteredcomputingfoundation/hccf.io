@@ -54,6 +54,12 @@ const GetInvolvedPage: React.FC = () => {
      */
   }, []);
 
+  useEffect(() => {
+    if (window.location.hash === "#newsletter") {
+      document.getElementById("newsletter")?.scrollIntoView();
+    }
+  }, []);
+
   return (
     <div className="get-involved-page">
       {/* =========================================
@@ -219,7 +225,7 @@ const GetInvolvedPage: React.FC = () => {
 
       <div className="gi-section-divider" />
 
-      <section className="gi-newsletter-section">
+      <section id="newsletter" className="gi-newsletter-section">
         <div className="section-container">
           <h2 className="gi-newsletter-title">
             Interested in following our progress and getting

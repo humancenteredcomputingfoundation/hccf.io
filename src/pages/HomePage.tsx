@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../index.css";
 
 import heroImg1 from "../assets/hero1.jpg";
@@ -104,7 +104,7 @@ const HomePage: React.FC = () => {
                   </p>
 
                   {/* Hero Actions Container */}
-                  <div className="hero-actions">
+                  <div className="hero-actions self-hero-actions">
                     <button
                       className="hero-cta-btn"
                       onClick={() =>
@@ -116,10 +116,11 @@ const HomePage: React.FC = () => {
                       Learn More &rarr;
                     </button>
 
+                    <Link to="/self" className="hero-secondary-btn">Explore .self &rarr;</Link>
                     <a
                       href="/dot-self.pdf"
                       download="dot-self.pdf"
-                      className="hero-secondary-btn"
+                      className="hero-secondary-btn self-hero-download"
                     >
                       Download Pamphlet &darr;
                     </a>
@@ -156,7 +157,7 @@ const HomePage: React.FC = () => {
                   </p>
                   <button
                     className="hero-cta-btn"
-                    onClick={() => navigate("/gtld-journey")}
+                    onClick={() => navigate("/self-gtld")}
                   >
                     View Submission Journey &rarr;
                   </button>

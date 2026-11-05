@@ -27,7 +27,7 @@ const NotFound: React.FC = () => {
             
             <button 
               className="not-found-secondary-btn" 
-              onClick={() => navigate('/gtld-journey')}
+              onClick={() => navigate('/self-gtld')}
             >
               Explore gTLD Journey &rarr;
             </button>
