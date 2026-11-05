@@ -12,12 +12,14 @@ import GetInvolvedPage from './pages/GetInvolvedPage';
 import GtldJourneyPage from './pages/GtldJourneyPage';
 import SelfPage from './pages/SelfPage';
 import HumanCenteredGuidePage from './pages/HumanCenteredGuidePage';
+import { BlogPage } from './pages/BlogPage';
 
 const pages = {
   '/': HomePage,
   '/mission/': MissionPage,
   '/what-we-build/': WhatWeBuildPage,
   '/about/': AboutPage,
+  '/blog/': BlogPage,
   '/get-involved/': GetInvolvedPage,
   '/self-gtld/': GtldJourneyPage,
   '/self/': SelfPage,
