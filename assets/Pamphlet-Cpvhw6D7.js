@@ -1,0 +1,1 @@
+var e=`/assets/Pamphlet-BI9PRhu8.png`;export{e as t};
